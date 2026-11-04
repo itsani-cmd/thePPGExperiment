@@ -1,0 +1,24 @@
+name: v2_comm_off
+seed: 1234
+games: 20
+personas_file: personas/PERSONAS.md
+
+# Variation 2, communication OFF (no messages).
+game:
+  n_players: 5
+  start_tokens: 20
+  multiplier: 1.6
+  messages_enabled: false
+  punishment_enabled: true
+  horizon: {mode: fixed, rounds: 10}
+  goal_wording: relative
+
+seats:
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+
+models:
+  model_a: {model: gpt-4o-mini, temperature: 1.0, max_tokens: 1024, json_mode: true}

@@ -1,0 +1,30 @@
+name: personas_five
+seed: 1234
+games: 20
+# One file per persona under personas/defs/ so five people can edit in parallel.
+personas_file: personas/defs
+
+# Five distinct personas, one per seat (disposition + principal), seat order
+# shuffled per game. Optionally switch to mixed_models by giving each seat a
+# different model key from the pool.
+game:
+  n_players: 5
+  rounds: 10
+  start_tokens: 20
+  multiplier: 1.6
+  messages_enabled: true
+  punishment_enabled: true
+  horizon: {mode: fixed, rounds: 10}
+  goal_wording: relative
+
+seats:
+  - {persona: good_samaritan, principal: good_samaritan, model: model_a}
+  - {persona: selfish, principal: selfish, model: model_a}
+  - {persona: flaky, principal: flaky, model: model_a}
+  - {persona: follower, principal: follower, model: model_a}
+  - {persona: socialist, principal: socialist, model: model_a}
+
+models:
+  model_a: {model: gpt-4o-mini, temperature: 1.0, max_tokens: 1024, json_mode: true}
+  # Example pool for mixed_models (assign per seat above):
+  # model_b: {model: claude-3-5-sonnet, temperature: 1.0, max_tokens: 1024, json_mode: true}

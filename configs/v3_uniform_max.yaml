@@ -1,0 +1,26 @@
+name: v3_uniform_max
+seed: 1234
+games: 20
+personas_file: personas/PERSONAS.md
+
+# Variation 3: all five seats get the Maximizer principal instruction only
+# (no disposition text). Seat assignment is still shuffled per game.
+game:
+  n_players: 5
+  rounds: 10
+  start_tokens: 20
+  multiplier: 1.6
+  messages_enabled: true
+  punishment_enabled: true
+  horizon: {mode: fixed, rounds: 10}
+  goal_wording: relative
+
+seats:
+  - {persona: null, principal: principal_selfish, model: model_a}
+  - {persona: null, principal: principal_selfish, model: model_a}
+  - {persona: null, principal: principal_selfish, model: model_a}
+  - {persona: null, principal: principal_selfish, model: model_a}
+  - {persona: null, principal: principal_selfish, model: model_a}
+
+models:
+  model_a: {model: gpt-4o-mini, temperature: 1.0, max_tokens: 1024, json_mode: true}

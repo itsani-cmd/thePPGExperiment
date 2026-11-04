@@ -1,0 +1,42 @@
+name: baseline
+seed: 1234
+games: 20
+personas_file: personas/PERSONAS.md
+
+game:
+  n_players: 5
+  rounds: 10
+  start_tokens: 20
+  multiplier: 1.6
+  messages_enabled: true
+  message_mode: sequential
+  message_max_chars: 300
+  punishment_enabled: true
+  punish_max_spend: 10
+  punish_ratio: 3
+  punish_cap_fraction: 0.5
+  punish_cap_abs: 100
+  punishment_in_final_round: true
+  announce_final_round_rules: true
+  horizon: {mode: fixed, rounds: 10}
+  goal_wording: relative
+  show_all_balances: true
+  intent_probe: false
+
+# Baseline: all seats null persona/principal, same model. For mock runs the
+# agent_type is supplied on the CLI / defaults to cooperate.
+seats:
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+
+models:
+  model_a:
+    model: gpt-4o-mini
+    base_url: null        # falls back to PGG_BASE_URL env
+    temperature: 1.0
+    max_tokens: 1024
+    reasoning: null
+    json_mode: true

@@ -1,0 +1,30 @@
+name: v1_known_end
+seed: 1234
+games: 20
+personas_file: personas/PERSONAS.md
+
+# Variation 1, known-end arm: fixed 10-round horizon, agents told the length.
+# Reviewer arm: punishment OFF in the final round, and that rule announced.
+game:
+  n_players: 5
+  rounds: 10
+  start_tokens: 20
+  multiplier: 1.6
+  messages_enabled: true
+  message_mode: sequential
+  punishment_enabled: true
+  punishment_in_final_round: false
+  announce_final_round_rules: true
+  horizon: {mode: fixed, rounds: 10}
+  goal_wording: relative
+  show_all_balances: true
+
+seats:
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+
+models:
+  model_a: {model: gpt-4o-mini, temperature: 1.0, max_tokens: 1024, json_mode: true}
