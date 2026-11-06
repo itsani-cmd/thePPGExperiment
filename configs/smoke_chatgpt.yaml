@@ -1,0 +1,30 @@
+name: smoke_chatgpt
+seed: 1234
+games: 1
+# Cheap connection test: same as local_chatgpt.yaml but only 2 rounds
+# (about 30 model calls). Run this first to check the proxy works.
+personas_file: personas/defs
+
+game:
+  n_players: 5
+  start_tokens: 20
+  multiplier: 1.6
+  messages_enabled: true
+  message_mode: sequential
+  punishment_enabled: true
+  horizon: {mode: fixed, rounds: 2}
+  goal_wording: relative
+
+seats:
+  - {persona: good_samaritan, principal: good_samaritan, model: chatgpt}
+  - {persona: selfish, principal: selfish, model: chatgpt}
+  - {persona: flaky, principal: flaky, model: chatgpt}
+  - {persona: follower, principal: follower, model: chatgpt}
+  - {persona: socialist, principal: socialist, model: chatgpt}
+
+models:
+  chatgpt:
+    model: gpt-6-luna
+    temperature: 1.0
+    max_tokens: 400
+    json_mode: true

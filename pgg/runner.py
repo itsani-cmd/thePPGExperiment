@@ -248,8 +248,14 @@ def run_game(
     agent_kind: str = "mock",
     client: Optional[LLMClient] = None,
     phase_workers: int = 1,
+    on_event: Optional[Callable[[str, Dict[str, object]], None]] = None,
 ) -> Dict[str, object]:
-    """Play one game to completion and write its logs. Returns the summary dict."""
+    """Play one game to completion and write its logs. Returns the summary dict.
+
+    ``on_event(kind, data)`` is an optional display hook, called with
+    ``("start", ...)``, ``("round", ...)`` and ``("end", ...)``. It never affects
+    the game or the logs.
+    """
     from .metrics import game_metrics  # local import to avoid cycle
 
     logger = GameLogger(run_dir, game_id)
@@ -288,8 +294,13 @@ def run_game(
 
     cfg = run.game
     disclose_final = cfg.announce_final_round_rules
+    who = {a.seat: (a.persona or a.principal or a.agent_type or "") for a in assignments}
+    if on_event:
+        on_event("start", {"game_id": game_id, "who": who, "total_rounds": game.total_rounds})
 
     while not game.finished:
+        if on_event:
+            on_event("progress", {"game_id": game_id, "text": f"round {game.round}: agents are deciding..."})
         rec = game.begin_round()
         spoken: List[MessageView] = []
 
@@ -387,7 +398,10 @@ def run_game(
 
         # ---- persist ----------------------------------------------------- #
         game.end_round()
-        logger.append_round(_round_to_dict(rec))
+        round_dict = _round_to_dict(rec)
+        logger.append_round(round_dict)
+        if on_event:
+            on_event("round", {"game_id": game_id, "who": who, "round": round_dict})
         # drain LLM call logs
         if agent_kind == "llm":
             for seat in game.seats:
@@ -398,6 +412,8 @@ def run_game(
     summary = _build_summary(run, game_id, game_seed, game, logger)
     summary["metrics"] = game_metrics(run.game, logger.read_rounds(), game.seats)
     logger.write_summary(summary)
+    if on_event:
+        on_event("end", {"game_id": game_id, "who": who, "summary": summary})
     return summary
 
 
@@ -456,6 +472,7 @@ def run_batch(
     game_workers: int = 1,
     phase_workers: int = 1,
     resume: bool = False,
+    on_event: Optional[Callable[[str, Dict[str, object]], None]] = None,
 ) -> List[Dict[str, object]]:
     """Run ``games`` games with seeds base_seed + k, writing to ``run_dir``."""
     os.makedirs(run_dir, exist_ok=True)
@@ -475,7 +492,7 @@ def run_batch(
     def _one(task):
         gid, gseed = task
         return run_game(
-            run, gid, gseed, run_dir, agent_kind, client, phase_workers
+            run, gid, gseed, run_dir, agent_kind, client, phase_workers, on_event
         )
 
     if game_workers <= 1 or agent_kind == "mock":

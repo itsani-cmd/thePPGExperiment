@@ -31,6 +31,7 @@ import time
 # allow running from the repo root without installing
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from pgg import transcript  # noqa: E402
 from pgg.config import load_run_config  # noqa: E402
 from pgg.llm.client import LLMClient  # noqa: E402
 from pgg.runner import count_calls, run_batch  # noqa: E402
@@ -55,6 +56,11 @@ def _parse_args(argv=None):
     p.add_argument("--game-workers", type=int, default=1, help="parallel games")
     p.add_argument("--phase-workers", type=int, default=5, help="parallel agent calls per phase")
     p.add_argument("--dry-run", action="store_true", help="print call-count estimate and exit")
+    p.add_argument(
+        "--live",
+        action="store_true",
+        help="print each round (messages, contributions, punishments) as it finishes",
+    )
     p.add_argument("--timeout", type=float, default=60.0, help="per-call timeout seconds")
     return p.parse_args(argv)
 
@@ -82,6 +88,17 @@ def _verify_models(run, client: LLMClient):
             file=sys.stderr,
         )
         sys.exit(2)
+
+
+def _live_printer(kind, data):
+    if kind == "start":
+        print(transcript.format_header(data["game_id"], data["who"], data["total_rounds"]), flush=True)
+    elif kind == "progress":
+        print(f"\n... {data['text']}", flush=True)
+    elif kind == "round":
+        print(transcript.format_round(data["round"], data["who"]), flush=True)
+    elif kind == "end":
+        print(transcript.format_summary(data["summary"], data["who"]), flush=True)
 
 
 def main(argv=None):
@@ -113,6 +130,7 @@ def main(argv=None):
         game_workers=args.game_workers,
         phase_workers=args.phase_workers,
         resume=bool(args.resume),
+        on_event=_live_printer if args.live else None,
     )
 
     print(f"Completed {len(summaries)} game(s). Logs in {run_dir}")
