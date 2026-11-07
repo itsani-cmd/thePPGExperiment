@@ -65,6 +65,18 @@ class PunishAction:
 
 
 @dataclass
+class RewardAction:
+    """A single reward: ``giver`` spends ``spend`` tokens, ``target`` gains ``gain``."""
+
+    giver: str
+    target: Optional[str]
+    spend: int
+    gain: int = 0
+    reason: str = ""
+    fallback_used: bool = False
+
+
+@dataclass
 class RoundRecord:
     round: int
     speaker_order: List[str] = field(default_factory=list)
@@ -82,6 +94,10 @@ class RoundRecord:
     share: int = 0
     carry_out: int = 0
     balances_after_distribution: Dict[str, int] = field(default_factory=dict)
+
+    reward_applied: bool = False
+    rewards: List[RewardAction] = field(default_factory=list)
+    balances_after_reward: Dict[str, int] = field(default_factory=dict)
 
     punishment_applied: bool = True
     punishments: List[PunishAction] = field(default_factory=list)
@@ -174,6 +190,7 @@ class Game:
         self._rec: Optional[RoundRecord] = None
         self._pending_contrib: Dict[str, int] = {}
         self._pending_punish: List[PunishAction] = []
+        self._pending_reward: List[RewardAction] = []
         self._exited: List[str] = []
         self._phase_messages: List[MessageAction] = []
 
@@ -209,6 +226,7 @@ class Game:
         self._rec = rec
         self._pending_contrib = {}
         self._pending_punish = []
+        self._pending_reward = []
         self._exited = []
         self._phase_messages = []
         return rec
@@ -312,6 +330,59 @@ class Game:
             self.balances[s] += self.cfg.exit_payoff
         self.carry = dist["carry_out"]
         rec.balances_after_distribution = dict(self.balances)
+
+    # ---- rewards -------------------------------------------------------- #
+    def reward_active(self) -> bool:
+        return self.cfg.reward_enabled
+
+    def submit_reward(
+        self,
+        giver: str,
+        target: Optional[str],
+        spend: int,
+        reason: str = "",
+        fallback_used: bool = False,
+    ) -> RewardAction:
+        """Validate and record a reward. Invalid actions become no-ops.
+
+        The target must be another player still in the round; spend is clamped to
+        [0, min(reward_max_spend, balance)].
+        """
+        active = self.active_seats()
+        spend = int(spend)
+        if target is None or target not in active or target == giver or giver not in active:
+            target, spend = None, 0
+        spend = max(0, min(spend, self.cfg.reward_max_spend, self.balances[giver]))
+        if spend == 0:
+            target = None
+        action = RewardAction(
+            giver=giver,
+            target=target,
+            spend=spend,
+            reason=reason,
+            fallback_used=fallback_used,
+        )
+        self._pending_reward.append(action)
+        return action
+
+    def resolve_rewards(self) -> None:
+        """Apply all rewards at once: givers pay ``spend``, targets gain ratio*spend."""
+        rec = self._rec
+        rec.reward_applied = True
+        for a in self._pending_reward:
+            if a.target is None:
+                continue
+            a.gain = self.cfg.reward_ratio * a.spend
+            self.balances[a.giver] -= a.spend
+            self.balances[a.target] += a.gain
+        rec.rewards = list(self._pending_reward)
+        rec.balances_after_reward = dict(self.balances)
+
+    def skip_rewards(self) -> None:
+        rec = self._rec
+        rec.reward_applied = False
+        rec.rewards = []
+        rec.balances_after_reward = dict(self.balances)
 
     # ---- punishment ----------------------------------------------------- #
     def punishment_active(self) -> bool:

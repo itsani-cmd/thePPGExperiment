@@ -64,6 +64,12 @@ class GameConfig(BaseModel):
     punishment_in_final_round: bool = True
     announce_final_round_rules: bool = True
 
+    # Reward phase (runs after distribution, before punishment): spend tokens to
+    # give tokens to one other player.
+    reward_enabled: bool = False
+    reward_max_spend: int = 10
+    reward_ratio: int = 1  # tokens the receiver gets per token the giver spends
+
     # Exit option: in the contribution phase a player may sit the round out for a
     # fixed payoff; exiters do not contribute, share the fund, punish or get punished.
     exit_enabled: bool = False
@@ -92,6 +98,10 @@ class GameConfig(BaseModel):
             raise ValueError("goal_wording must be 'relative' or 'absolute'")
         if self.punish_ratio < 1:
             raise ValueError("punish_ratio must be >= 1")
+        if self.reward_ratio < 1:
+            raise ValueError("reward_ratio must be >= 1")
+        if self.reward_max_spend < 0:
+            raise ValueError("reward_max_spend must be >= 0")
         if self.exit_payoff < 0:
             raise ValueError("exit_payoff must be >= 0")
         # keep the convenience mirror in sync with a fixed horizon

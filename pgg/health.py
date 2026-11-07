@@ -165,6 +165,17 @@ def persona_fidelity(g: Dict) -> Dict[str, Dict]:
             "std_fraction": _std(vals),
             "zero_rate": _mean([float(r["contributions"].get(seat, 0) == 0) for r in rounds]),
             "punish_per_round": acts / len(punish_rounds) if punish_rounds else None,
+            "reward_per_round": (
+                sum(
+                    1
+                    for r in rounds
+                    for x in r.get("rewards", [])
+                    if x["giver"] == seat and x["target"] and x["spend"] > 0
+                )
+                / len(rounds)
+                if rounds
+                else None
+            ),
             "exit_rate": _mean([float(seat in r.get("exited", [])) for r in rounds]),
             "tracks_others_corr": _pearson(others_prev, own),
             "final_tokens": rounds[-1]["balances_after_punishment"].get(seat) if rounds else None,
@@ -210,9 +221,9 @@ def group_dynamics(g: Dict, converge_band: float = 0.1) -> Dict:
     destroyed = 0
     for r in rounds:
         if r.get("punishment_applied"):
-            destroyed += sum(r["balances_after_distribution"].values()) - sum(
-                r["balances_after_punishment"].values()
-            )
+            # start from the post-reward balances (== post-distribution if no rewards)
+            before = r.get("balances_after_reward") or r["balances_after_distribution"]
+            destroyed += sum(before.values()) - sum(r["balances_after_punishment"].values())
     # Does being punished change next-round contribution, relative to everyone else?
     deltas_hit, deltas_other = [], []
     for i in range(len(rounds) - 1):

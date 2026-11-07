@@ -22,6 +22,7 @@ from .base import (
     MessageOut,
     Observation,
     PunishOut,
+    RewardOut,
 )
 
 
@@ -189,6 +190,14 @@ class LLMAgent:
             return ContributionOut(
                 contribution=0, reason="fallback: invalid output", predicted_others_mean=None
             )
+        return parsed
+
+    def reward(self, obs: Observation) -> RewardOut:
+        prompt = builder.build_reward_prompt(obs, self.cfg)
+        parsed, fb = self._run(obs, "reward", prompt, lambda o: RewardOut(**o))
+        self.fallback_last = fb
+        if parsed is None:
+            return RewardOut(target=None, spend=0, reason="fallback: invalid output")
         return parsed
 
     def punish(self, obs: Observation) -> PunishOut:

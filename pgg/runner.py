@@ -173,6 +173,16 @@ def _public_history(game: Game) -> List[RoundPublic]:
                 share=rec.share,
                 pot=rec.pot,
                 balances_after_distribution=dict(rec.balances_after_distribution),
+                rewards=[
+                    {
+                        "giver": r.giver,
+                        "target": r.target,
+                        "spend": r.spend,
+                        "gain": r.gain,
+                    }
+                    for r in rec.rewards
+                    if r.target is not None and r.spend > 0
+                ],
                 punishments=[
                     {
                         "punisher": p.punisher,
@@ -357,6 +367,31 @@ def run_game(
         this_contrib = dict(rec.contributions)
         active = game.active_seats()
 
+        # ---- rewards ----------------------------------------------------- #
+        if game.reward_active():
+            obs_map = {
+                s: _make_obs(
+                    game,
+                    s,
+                    "reward",
+                    disclose_final,
+                    spoken,
+                    this_round_contributions=this_contrib,
+                    this_round_share=rec.share,
+                )
+                for s in active
+            }
+            reward_outs = _run_phase_concurrent(
+                active, lambda s: agents[s].reward(obs_map[s]), phase_workers
+            )
+            for seat in active:
+                out = reward_outs[seat]
+                fb = getattr(agents[seat], "fallback_last", False)
+                game.submit_reward(seat, out.target, out.spend, reason=out.reason, fallback_used=fb)
+            game.resolve_rewards()
+        else:
+            game.skip_rewards()
+
         # ---- punishment -------------------------------------------------- #
         if game.punishment_active():
             obs_map = {
@@ -435,6 +470,9 @@ def _round_to_dict(rec: RoundRecord) -> Dict[str, object]:
         "share": rec.share,
         "carry_out": rec.carry_out,
         "balances_after_distribution": rec.balances_after_distribution,
+        "reward_applied": rec.reward_applied,
+        "rewards": [dataclasses.asdict(r) for r in rec.rewards],
+        "balances_after_reward": rec.balances_after_reward,
         "punishment_applied": rec.punishment_applied,
         "punishments": [dataclasses.asdict(p) for p in rec.punishments],
         "balances_after_punishment": rec.balances_after_punishment,
@@ -526,6 +564,8 @@ def count_calls(run: RunConfig, games: Optional[int] = None) -> Dict[str, int]:
     )
     phases = 1  # contribute always
     if cfg.messages_enabled:
+        phases += 1
+    if cfg.reward_enabled:
         phases += 1
     if cfg.punishment_enabled:
         phases += 1

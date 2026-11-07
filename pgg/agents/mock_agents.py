@@ -16,6 +16,7 @@ from .base import (
     MessageOut,
     Observation,
     PunishOut,
+    RewardOut,
 )
 
 
@@ -35,6 +36,9 @@ class _MockBase:
 
     def punish(self, obs: Observation) -> PunishOut:
         return PunishOut(target=None, spend=0, reason="mock: no punishment")
+
+    def reward(self, obs: Observation) -> RewardOut:
+        return RewardOut(target=None, spend=0, reason="mock: no reward")
 
     def _last_round(self, obs: Observation):
         return obs.history[-1] if obs.history else None
@@ -135,6 +139,18 @@ class RandomAgent(_MockBase):
                     expected_effect="random",
                 )
         return PunishOut(target=None, spend=0, reason="mock: random no-op")
+
+    def reward(self, obs: Observation) -> RewardOut:
+        rng = self._rng(obs)
+        if rng.random() < 0.25:
+            others = [s for s in obs.seat_labels if s != obs.seat]
+            if others:
+                return RewardOut(
+                    target=rng.choice(others),
+                    spend=rng.randint(1, 10),
+                    reason="mock: random reward",
+                )
+        return RewardOut(target=None, spend=0, reason="mock: random no-op")
 
 
 class Leaver(_MockBase):

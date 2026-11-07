@@ -217,6 +217,32 @@ def final_outcomes(rounds: List[dict], seats: Sequence[str]) -> Dict:
     return out
 
 
+def reward_stats(rounds: List[dict], seats: Sequence[str]) -> Dict:
+    """How often and how much players reward, and who receives rewards."""
+    gifts = 0
+    spent = 0
+    received = {s: 0 for s in seats}
+    given_to_high = 0  # rewarding someone who contributed above the round median
+    for r in rounds:
+        if not r.get("reward_applied"):
+            continue
+        med = _median([r["contributions"].get(s, 0) for s in seats])
+        for x in r.get("rewards", []):
+            if x.get("target") is None or x.get("spend", 0) <= 0:
+                continue
+            gifts += 1
+            spent += x["spend"]
+            received[x["target"]] = received.get(x["target"], 0) + x.get("gain", 0)
+            if r["contributions"].get(x["target"], 0) > med:
+                given_to_high += 1
+    return {
+        "reward_actions": gifts,
+        "tokens_spent": spent,
+        "tokens_received": received,
+        "to_high_contributor_rate": given_to_high / gifts if gifts else 0.0,
+    }
+
+
 def exit_stats(rounds: List[dict], seats: Sequence[str]) -> Dict:
     """Share of rounds each seat sat out, and the overall exit rate."""
     n = len(rounds)
@@ -237,6 +263,7 @@ def game_metrics(cfg: GameConfig, rounds: List[dict], seats: Sequence[str]) -> D
         "punishment": punishment_stats(rounds, seats),
         "punishment_targets": punishment_targets(rounds, seats),
         "retaliation_rate": retaliation_rate(rounds, seats),
+        "rewards": reward_stats(rounds, seats),
         "exits": exit_stats(rounds, seats),
         "endgame_drop": endgame_drop(rounds, seats),
         "final_outcomes": final_outcomes(rounds, seats),

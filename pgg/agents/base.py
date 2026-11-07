@@ -29,6 +29,8 @@ class RoundPublic(BaseModel):
     share: int = 0
     pot: int = 0
     balances_after_distribution: Dict[str, int] = Field(default_factory=dict)
+    # rewards: list of dicts with giver, target, spend, gain
+    rewards: List[Dict[str, object]] = Field(default_factory=list)
     # punishment: list of (punisher, target, spend, actual_damage)
     punishments: List[Dict[str, object]] = Field(default_factory=list)
     balances_after_punishment: Dict[str, int] = Field(default_factory=dict)
@@ -40,7 +42,7 @@ class Observation(BaseModel):
     seat: str
     seat_labels: List[str]
     round: int
-    phase: str  # 'message' | 'contribute' | 'punish' | 'intent_probe'
+    phase: str  # 'message' | 'contribute' | 'reward' | 'punish' | 'intent_probe'
     balances: Dict[str, int]
     own_balance: int
     history: List[RoundPublic] = Field(default_factory=list)
@@ -65,6 +67,12 @@ class ContributionOut(BaseModel):
     reason: str = ""
     predicted_others_mean: Optional[float] = None
     exit: bool = False  # sit the round out (only honoured when the exit option is on)
+
+
+class RewardOut(BaseModel):
+    target: Optional[str] = None
+    spend: int = 0
+    reason: str = ""
 
 
 class PunishOut(BaseModel):
