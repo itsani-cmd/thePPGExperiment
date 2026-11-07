@@ -33,6 +33,7 @@ def test_load_personas_from_directory():
     # README and multi-block files are handled, comment mentions don't misroute.
     personas = load_personas(os.path.join(ROOT, "personas", "defs"))
     assert sorted(personas.keys()) == [
+        "defector",
         "flaky",
         "follower",
         "good_samaritan",

@@ -32,6 +32,7 @@ Rules:
 | `flaky.md` | flaky | Flaky / Chaos Monkey | person 3 |
 | `follower.md` | follower | Follower | person 4 |
 | `socialist.md` | socialist | Socialist | person 5 |
+| `defector.md` | defector | Planted free-rider (V6 only, not in the five) | shared |
 
 To add a new persona, create a new `<id>.md` file here and reference `<id>` in a
 config under `configs/`.

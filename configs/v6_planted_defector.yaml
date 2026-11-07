@@ -1,0 +1,26 @@
+name: v6_planted_defector
+seed: 1234
+games: 20
+personas_file: personas/defs
+
+# Variation 6, one planted free-rider among four plain seats. The defector is a persona
+# (personas/defs/defector.md), so all five seats are model agents; compare with baseline.
+# Check the result with summarize_runs.py: the defector's zero rate should be near 1.
+game:
+  n_players: 5
+  start_tokens: 20
+  multiplier: 1.6
+  messages_enabled: true
+  punishment_enabled: true
+  horizon: {mode: fixed, rounds: 10}
+  goal_wording: relative
+
+seats:
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: defector, principal: defector, model: model_a}
+
+models:
+  model_a: {model: gpt-4o-mini, temperature: 1.0, max_tokens: 1024, json_mode: true}

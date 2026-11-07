@@ -134,6 +134,7 @@ All files are in `configs/`.
 | `v4_reward_only.yaml` | V4: rewards instead of punishment | `punishment_enabled: false`, `reward_enabled: true`; compare with `baseline.yaml` |
 | `v4_reward_and_punish.yaml` | V4: both | reward phase, then punishment phase |
 | `v5_anonymous.yaml` | V5: anonymous contributions | each player sees only their own gift and the group total; other balances hidden |
+| `v6_planted_defector.yaml` | V6: planted defector | 4 plain seats + 1 seat with the `defector` persona (told to never contribute) |
 | `v7_exit.yaml` | V7: exit option | players may sit a round out for `exit_payoff: 4` |
 
 **Before running these with real models:**
