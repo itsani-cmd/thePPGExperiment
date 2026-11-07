@@ -64,6 +64,8 @@ def _history_block(obs: Observation) -> str:
                 f"{s}={r.contributions.get(s, 0)}" for s in obs.seat_labels
             )
             lines.append(f"  contributions: {contribs} (share each: {r.share})")
+        if r.exited:
+            lines.append(f"  sat out (exit): {', '.join(r.exited)}")
         if r.punishments:
             for p in r.punishments:
                 lines.append(
@@ -108,7 +110,15 @@ def build_system_prompt(
         if cfg.punishment_enabled
         else ": DISABLED this game (no punishment)."
     )
+    exit_rule = (
+        f" Instead of contributing you may EXIT the round: you keep your tokens, get a fixed "
+        f"{cfg.exit_payoff} extra token(s), and take no part in that round's fund or "
+        f"punishment. If anyone exits, the fund is split equally among the players who did not exit."
+        if cfg.exit_enabled
+        else ""
+    )
     sys = tmpl.format(
+        exit_rule=exit_rule,
         seat=seat,
         n_players=cfg.n_players,
         seat_labels=", ".join(f"P{i+1}" for i in range(cfg.n_players)),
@@ -147,22 +157,37 @@ def build_contribute_prompt(obs: Observation, cfg: GameConfig) -> str:
         block = "Messages this round:\n" + spoken
     else:
         block = ""
+    exit_field = ', "exit": <true to sit this round out instead, else false>' if cfg.exit_enabled else ""
+    if cfg.exit_enabled:
+        block = (block + "\n\n" if block else "") + (
+            f"You may instead EXIT this round (set exit to true; contribution is then ignored). "
+            f"You would keep your {obs.own_balance} tokens and get {cfg.exit_payoff} extra, "
+            f"but receive no share and cannot punish."
+        )
     return tmpl.format(
         round=obs.round,
         state_block=_state_block(obs, cfg),
         messages_this_round_block=block,
         own_balance=obs.own_balance,
+        exit_field=exit_field,
     )
 
 
-def build_punish_prompt(obs: Observation, cfg: GameConfig) -> str:
-    tmpl = _read("decision_punish.md")
+def _distribution_block(obs: Observation, cfg: GameConfig) -> str:
     contribs = obs.this_round_contributions or {}
     dist = ", ".join(f"{s}={contribs.get(s, 0)}" for s in obs.seat_labels)
     block = (
         f"This round's contributions have been revealed: {dist} "
         f"(each player received a share of {obs.this_round_share})."
     )
+    if obs.this_round_exited:
+        block += f" Sat out this round: {', '.join(obs.this_round_exited)}."
+    return block
+
+
+def build_punish_prompt(obs: Observation, cfg: GameConfig) -> str:
+    tmpl = _read("decision_punish.md")
+    block = _distribution_block(obs, cfg)
     return tmpl.format(
         round=obs.round,
         state_block=_state_block(obs, cfg),

@@ -1,0 +1,28 @@
+name: v7_exit
+seed: 1234
+games: 20
+personas_file: personas/PERSONAS.md
+
+# Variation 7, exit option. A player may sit a round out: keeps their tokens, gets exit_payoff
+# extra, takes no share and cannot punish or be punished. Free-riding beats exiting whenever the
+# per-player share exceeds exit_payoff, so exit only pays once the group has largely stopped
+# contributing.
+game:
+  n_players: 5
+  start_tokens: 20
+  multiplier: 1.6
+  messages_enabled: true
+  horizon: {mode: fixed, rounds: 10}
+  goal_wording: relative
+  punishment_enabled: true
+  exit_enabled: true
+  exit_payoff: 4
+seats:
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+
+models:
+  model_a: {model: gpt-4o-mini, temperature: 1.0, max_tokens: 1024, json_mode: true}

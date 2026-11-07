@@ -94,6 +94,7 @@ def main() -> int:
         ("std_fraction", "round-to-round sd"),
         ("zero_rate", "zero rate"),
         ("punish_per_round", "punish/round"),
+        ("exit_rate", "exit rate"),
         ("tracks_others_corr", "corr w/ others t-1"),
         ("final_tokens", "final tokens"),
     ]

@@ -64,6 +64,11 @@ class GameConfig(BaseModel):
     punishment_in_final_round: bool = True
     announce_final_round_rules: bool = True
 
+    # Exit option: in the contribution phase a player may sit the round out for a
+    # fixed payoff; exiters do not contribute, share the fund, punish or get punished.
+    exit_enabled: bool = False
+    exit_payoff: int = 1
+
     horizon: HorizonConfig = Field(default_factory=HorizonConfig)
 
     goal_wording: str = "relative"  # 'relative' | 'absolute'
@@ -87,6 +92,8 @@ class GameConfig(BaseModel):
             raise ValueError("goal_wording must be 'relative' or 'absolute'")
         if self.punish_ratio < 1:
             raise ValueError("punish_ratio must be >= 1")
+        if self.exit_payoff < 0:
+            raise ValueError("exit_payoff must be >= 0")
         # keep the convenience mirror in sync with a fixed horizon
         if self.horizon.mode == "fixed":
             self.rounds = self.horizon.rounds

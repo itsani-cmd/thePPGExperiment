@@ -31,7 +31,10 @@ def format_round(r: dict, who: Dict[str, str]) -> str:
         before = r["balances_before_contribution"].get(s, 0)
         c = r["contributions"][s]
         fb = "  [fallback]" if r.get("contribution_fallbacks", {}).get(s) else ""
-        lines.append(f"  {_label(s, who):28s} gave {c:>3} of {before}{fb}")
+        if s in r.get("exited", []):
+            lines.append(f"  {_label(s, who):28s} EXITED (kept {before})")
+        else:
+            lines.append(f"  {_label(s, who):28s} gave {c:>3} of {before}{fb}")
     lines.append(
         f"  pot {r['pot']}, each player gets {r['share']}, carry {r['carry_out']}"
     )

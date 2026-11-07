@@ -137,11 +137,23 @@ class RandomAgent(_MockBase):
         return PunishOut(target=None, spend=0, reason="mock: random no-op")
 
 
+class Leaver(_MockBase):
+    """Always sits the round out when the exit option exists (else contributes 0)."""
+
+    name = "leaver"
+
+    def contribute(self, obs: Observation) -> ContributionOut:
+        return ContributionOut(
+            contribution=0, reason="mock: always exit", predicted_others_mean=None, exit=True
+        )
+
+
 MOCK_AGENTS = {
     "cooperate": AlwaysCooperate,
     "defect": AlwaysDefect,
     "titfortat": TitForTat,
     "random": RandomAgent,
+    "leaver": Leaver,
 }
 
 

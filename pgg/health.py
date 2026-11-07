@@ -165,6 +165,7 @@ def persona_fidelity(g: Dict) -> Dict[str, Dict]:
             "std_fraction": _std(vals),
             "zero_rate": _mean([float(r["contributions"].get(seat, 0) == 0) for r in rounds]),
             "punish_per_round": acts / len(punish_rounds) if punish_rounds else None,
+            "exit_rate": _mean([float(seat in r.get("exited", [])) for r in rounds]),
             "tracks_others_corr": _pearson(others_prev, own),
             "final_tokens": rounds[-1]["balances_after_punishment"].get(seat) if rounds else None,
         }

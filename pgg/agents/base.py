@@ -25,6 +25,7 @@ class RoundPublic(BaseModel):
     speaker_order: List[str] = Field(default_factory=list)
     messages: List[MessageView] = Field(default_factory=list)
     contributions: Dict[str, int] = Field(default_factory=dict)
+    exited: List[str] = Field(default_factory=list)
     share: int = 0
     pot: int = 0
     balances_after_distribution: Dict[str, int] = Field(default_factory=dict)
@@ -48,6 +49,7 @@ class Observation(BaseModel):
     # distribution result available in the punish phase
     this_round_contributions: Optional[Dict[str, int]] = None
     this_round_share: Optional[int] = None
+    this_round_exited: List[str] = Field(default_factory=list)
     # horizon disclosure (condition-dependent)
     horizon_text: str = ""
     is_final_round: bool = False
@@ -62,6 +64,7 @@ class ContributionOut(BaseModel):
     contribution: int
     reason: str = ""
     predicted_others_mean: Optional[float] = None
+    exit: bool = False  # sit the round out (only honoured when the exit option is on)
 
 
 class PunishOut(BaseModel):

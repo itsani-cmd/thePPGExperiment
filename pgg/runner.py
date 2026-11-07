@@ -169,6 +169,7 @@ def _public_history(game: Game) -> List[RoundPublic]:
                 speaker_order=list(rec.speaker_order),
                 messages=[MessageView(seat=m.seat, text=m.text) for m in rec.messages],
                 contributions=dict(rec.contributions),
+                exited=list(rec.exited),
                 share=rec.share,
                 pot=rec.pot,
                 balances_after_distribution=dict(rec.balances_after_distribution),
@@ -210,6 +211,7 @@ def _make_obs(
         messages_this_round=list(messages_this_round),
         this_round_contributions=this_round_contributions,
         this_round_share=this_round_share,
+        this_round_exited=list(game._rec.exited) if game._rec is not None else [],
         horizon_text=builder.horizon_text(
             cfg, cfg.announce_final_round_rules, is_final
         ),
@@ -350,12 +352,13 @@ def run_game(
         for seat in game.seats:
             out: ContributionOut = contrib_outs[seat]
             fb = getattr(agents[seat], "fallback_last", False)
-            game.submit_contribution(seat, out.contribution, fb)
+            game.submit_contribution(seat, out.contribution, fb, exit=out.exit)
         game.resolve_contributions_and_distribution()
+        this_contrib = dict(rec.contributions)
+        active = game.active_seats()
 
         # ---- punishment -------------------------------------------------- #
         if game.punishment_active():
-            this_contrib = dict(rec.contributions)
             obs_map = {
                 s: _make_obs(
                     game,
@@ -366,14 +369,14 @@ def run_game(
                     this_round_contributions=this_contrib,
                     this_round_share=rec.share,
                 )
-                for s in game.seats
+                for s in active
             }
             punish_outs = _run_phase_concurrent(
-                list(game.seats),
+                active,
                 lambda s: agents[s].punish(obs_map[s]),
                 phase_workers,
             )
-            for seat in game.seats:
+            for seat in active:
                 out = punish_outs[seat]
                 fb = getattr(agents[seat], "fallback_last", False)
                 game.submit_punishment(
@@ -425,6 +428,7 @@ def _round_to_dict(rec: RoundRecord) -> Dict[str, object]:
         "balances_before_contribution": rec.balances_before_contribution,
         "contributions": rec.contributions,
         "contribution_fallbacks": rec.contribution_fallbacks,
+        "exited": rec.exited,
         "balances_after_contribution": rec.balances_after_contribution,
         "carry_in": rec.carry_in,
         "pot": rec.pot,

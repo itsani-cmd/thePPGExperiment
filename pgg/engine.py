@@ -75,6 +75,8 @@ class RoundRecord:
     contribution_fallbacks: Dict[str, bool] = field(default_factory=dict)
     balances_after_contribution: Dict[str, int] = field(default_factory=dict)
 
+    exited: List[str] = field(default_factory=list)
+
     carry_in: int = 0
     pot: int = 0
     share: int = 0
@@ -109,6 +111,8 @@ def resolve_distribution(
     total = sum(contributions)
     pot_exact = frac * total + carry_in
     pot = int(math.floor(pot_exact))
+    if n_players <= 0:  # everyone exited: nobody to pay, the fund carries over
+        return {"pot": pot, "share": 0, "carry_out": pot}
     share = pot // n_players
     carry_out = pot - n_players * share
     return {"pot": pot, "share": share, "carry_out": carry_out}
@@ -170,6 +174,7 @@ class Game:
         self._rec: Optional[RoundRecord] = None
         self._pending_contrib: Dict[str, int] = {}
         self._pending_punish: List[PunishAction] = []
+        self._exited: List[str] = []
         self._phase_messages: List[MessageAction] = []
 
     # ---- horizon -------------------------------------------------------- #
@@ -204,6 +209,7 @@ class Game:
         self._rec = rec
         self._pending_contrib = {}
         self._pending_punish = []
+        self._exited = []
         self._phase_messages = []
         return rec
 
@@ -250,8 +256,22 @@ class Game:
         self._rec.messages = list(self._phase_messages)
 
     # ---- contributions -------------------------------------------------- #
-    def submit_contribution(self, seat: str, amount: int, fallback_used: bool = False) -> int:
-        """Clamp and record a contribution. Clamped to [0, balance]."""
+    def active_seats(self) -> List[str]:
+        """Seats still in the round (everyone, unless some chose to exit)."""
+        return [s for s in self.seats if s not in self._exited]
+
+    def submit_contribution(
+        self, seat: str, amount: int, fallback_used: bool = False, exit: bool = False
+    ) -> int:
+        """Clamp and record a contribution. Clamped to [0, balance].
+
+        ``exit`` is honoured only when the exit option is enabled; an exiting
+        seat contributes 0.
+        """
+        if exit and self.cfg.exit_enabled:
+            if seat not in self._exited:
+                self._exited.append(seat)
+            amount = 0
         bal = self.balances[seat]
         c = int(amount)
         if c < 0:
@@ -269,23 +289,27 @@ class Game:
             self._pending_contrib.setdefault(s, 0)
             rec.contribution_fallbacks.setdefault(s, False)
         rec.contributions = dict(self._pending_contrib)
+        rec.exited = [s for s in self.seats if s in self._exited]
 
         # drop balances by contributions
         for s in self.seats:
             self.balances[s] -= self._pending_contrib[s]
         rec.balances_after_contribution = dict(self.balances)
 
+        active = self.active_seats()
         dist = resolve_distribution(
-            [self._pending_contrib[s] for s in self.seats],
+            [self._pending_contrib[s] for s in active],
             self.carry,
             self.cfg.multiplier,
-            self.cfg.n_players,
+            len(active),
         )
         rec.pot = dist["pot"]
         rec.share = dist["share"]
         rec.carry_out = dist["carry_out"]
-        for s in self.seats:
+        for s in active:
             self.balances[s] += dist["share"]
+        for s in rec.exited:  # fixed outside payoff, paid from outside the game
+            self.balances[s] += self.cfg.exit_payoff
         self.carry = dist["carry_out"]
         rec.balances_after_distribution = dict(self.balances)
 
@@ -313,8 +337,12 @@ class Game:
         the post-distribution snapshot in :meth:`resolve_punishment`.
         """
         spend = int(spend)
+        active = self.active_seats()
         valid_target = (
-            target is not None and target in self.seats and target != punisher
+            target is not None
+            and target in active
+            and target != punisher
+            and punisher in active
         )
         if not valid_target:
             target = None

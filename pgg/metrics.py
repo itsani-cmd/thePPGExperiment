@@ -217,6 +217,16 @@ def final_outcomes(rounds: List[dict], seats: Sequence[str]) -> Dict:
     return out
 
 
+def exit_stats(rounds: List[dict], seats: Sequence[str]) -> Dict:
+    """Share of rounds each seat sat out, and the overall exit rate."""
+    n = len(rounds)
+    counts = {s: sum(1 for r in rounds if s in r.get("exited", [])) for s in seats}
+    return {
+        "exit_rate_by_seat": {s: counts[s] / n if n else 0.0 for s in seats},
+        "exit_rate": sum(counts.values()) / (n * len(seats)) if n and seats else 0.0,
+    }
+
+
 def game_metrics(cfg: GameConfig, rounds: List[dict], seats: Sequence[str]) -> Dict:
     """Bundle all per-game metrics. Unit of analysis is the game."""
     return {
@@ -227,6 +237,7 @@ def game_metrics(cfg: GameConfig, rounds: List[dict], seats: Sequence[str]) -> D
         "punishment": punishment_stats(rounds, seats),
         "punishment_targets": punishment_targets(rounds, seats),
         "retaliation_rate": retaliation_rate(rounds, seats),
+        "exits": exit_stats(rounds, seats),
         "endgame_drop": endgame_drop(rounds, seats),
         "final_outcomes": final_outcomes(rounds, seats),
     }
