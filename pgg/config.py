@@ -75,6 +75,10 @@ class GameConfig(BaseModel):
     exit_enabled: bool = False
     exit_payoff: int = 1
 
+    # 'named': everyone sees who gave what. 'anonymous': each player sees only
+    # their own contribution and the group total; other balances are hidden too.
+    contributions_visible: str = "named"
+
     horizon: HorizonConfig = Field(default_factory=HorizonConfig)
 
     goal_wording: str = "relative"  # 'relative' | 'absolute'
@@ -83,6 +87,11 @@ class GameConfig(BaseModel):
 
     # metrics thresholds (kept here so logs + metrics agree)
     free_rider_fraction_threshold: float = 0.25
+
+    @property
+    def balances_visible(self) -> bool:
+        """Whether agents see every player's balance (anonymity hides them)."""
+        return self.show_all_balances and self.contributions_visible == "named"
 
     @model_validator(mode="after")
     def _check(self) -> "GameConfig":
@@ -104,6 +113,8 @@ class GameConfig(BaseModel):
             raise ValueError("reward_max_spend must be >= 0")
         if self.exit_payoff < 0:
             raise ValueError("exit_payoff must be >= 0")
+        if self.contributions_visible not in ("named", "anonymous"):
+            raise ValueError("contributions_visible must be 'named' or 'anonymous'")
         # keep the convenience mirror in sync with a fixed horizon
         if self.horizon.mode == "fixed":
             self.rounds = self.horizon.rounds

@@ -85,6 +85,11 @@ class TitForTat(_MockBase):
             others = [
                 c for s, c in last.contributions.items() if s != obs.seat
             ]
+            if not others and last.total_contributed:
+                # anonymous mode: only the group total is visible
+                n_others = len(obs.seat_labels) - 1
+                own = last.contributions.get(obs.seat, 0)
+                others = [(last.total_contributed - own) / n_others]
             mean = sum(others) / len(others) if others else 0
             amt = int(round(mean))
             amt = max(0, min(amt, obs.own_balance))

@@ -25,6 +25,8 @@ class RoundPublic(BaseModel):
     speaker_order: List[str] = Field(default_factory=list)
     messages: List[MessageView] = Field(default_factory=list)
     contributions: Dict[str, int] = Field(default_factory=dict)
+    # group total; in anonymous mode ``contributions`` holds only the viewer's own entry
+    total_contributed: int = 0
     exited: List[str] = Field(default_factory=list)
     share: int = 0
     pot: int = 0
@@ -51,6 +53,7 @@ class Observation(BaseModel):
     # distribution result available in the punish phase
     this_round_contributions: Optional[Dict[str, int]] = None
     this_round_share: Optional[int] = None
+    this_round_total: Optional[int] = None
     this_round_exited: List[str] = Field(default_factory=list)
     # horizon disclosure (condition-dependent)
     horizon_text: str = ""

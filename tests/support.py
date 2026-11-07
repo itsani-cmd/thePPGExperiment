@@ -35,6 +35,14 @@ def contribute(g: Game, amounts: Sequence[int], exits: Sequence[str] = ()) -> No
     g.resolve_contributions_and_distribution()
 
 
+def finish_round(g: Game) -> None:
+    """Close a round with no punishment, then open the next one."""
+    g.skip_rewards()
+    g.skip_punishment()
+    g.end_round()
+    g.begin_round()
+
+
 def run_config(
     seats: List[AgentSeatConfig], rounds: int = 4, **game_kw
 ) -> RunConfig:

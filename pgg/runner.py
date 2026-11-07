@@ -160,7 +160,13 @@ def build_agents(
 # --------------------------------------------------------------------------- #
 # Observation building (from the engine's public state)
 # --------------------------------------------------------------------------- #
-def _public_history(game: Game) -> List[RoundPublic]:
+def _public_history(game: Game, seat: str) -> List[RoundPublic]:
+    """History as ``seat`` may see it; anonymity hides others' gifts and balances."""
+    anon = game.cfg.contributions_visible == "anonymous"
+
+    def view(d: Dict[str, int]) -> Dict[str, int]:
+        return {seat: d[seat]} if anon and seat in d else ({} if anon else dict(d))
+
     out: List[RoundPublic] = []
     for rec in game.history:
         out.append(
@@ -168,11 +174,12 @@ def _public_history(game: Game) -> List[RoundPublic]:
                 round=rec.round,
                 speaker_order=list(rec.speaker_order),
                 messages=[MessageView(seat=m.seat, text=m.text) for m in rec.messages],
-                contributions=dict(rec.contributions),
+                contributions=view(rec.contributions),
+                total_contributed=sum(rec.contributions.values()),
                 exited=list(rec.exited),
                 share=rec.share,
                 pot=rec.pot,
-                balances_after_distribution=dict(rec.balances_after_distribution),
+                balances_after_distribution=view(rec.balances_after_distribution),
                 rewards=[
                     {
                         "giver": r.giver,
@@ -193,7 +200,7 @@ def _public_history(game: Game) -> List[RoundPublic]:
                     for p in rec.punishments
                     if p.target is not None and p.spend > 0
                 ],
-                balances_after_punishment=dict(rec.balances_after_punishment),
+                balances_after_punishment=view(rec.balances_after_punishment),
             )
         )
     return out
@@ -210,6 +217,11 @@ def _make_obs(
 ) -> Observation:
     cfg = game.cfg
     is_final = game.is_final_round()
+    total = None
+    if this_round_contributions is not None:
+        total = sum(this_round_contributions.values())
+        if cfg.contributions_visible == "anonymous":
+            this_round_contributions = {seat: this_round_contributions.get(seat, 0)}
     return Observation(
         seat=seat,
         seat_labels=list(game.seats),
@@ -217,10 +229,11 @@ def _make_obs(
         phase=phase,
         balances=dict(game.balances),
         own_balance=game.balances[seat],
-        history=_public_history(game),
+        history=_public_history(game, seat),
         messages_this_round=list(messages_this_round),
         this_round_contributions=this_round_contributions,
         this_round_share=this_round_share,
+        this_round_total=total,
         this_round_exited=list(game._rec.exited) if game._rec is not None else [],
         horizon_text=builder.horizon_text(
             cfg, cfg.announce_final_round_rules, is_final
