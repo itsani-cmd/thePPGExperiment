@@ -55,3 +55,10 @@ def test_end_to_end_with_a_leaver():
         assert len(r["exited"]) == 1
         assert r["contributions"][r["exited"][0]] == 0
     assert summary["metrics"]["exits"]["exit_rate"] == 0.2
+
+
+def test_exit_with_null_or_missing_contribution_parses():
+    from pgg.agents.base import ContributionOut
+
+    assert ContributionOut(contribution=None, exit=True).contribution == 0
+    assert ContributionOut(exit=True).exit is True

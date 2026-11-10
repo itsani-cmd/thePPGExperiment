@@ -167,6 +167,18 @@ def _public_history(game: Game, seat: str) -> List[RoundPublic]:
     def view(d: Dict[str, int]) -> Dict[str, int]:
         return {seat: d[seat]} if anon and seat in d else ({} if anon else dict(d))
 
+    def mine(items, key):
+        # anonymity: keep only actions the viewer gave or received, hiding the other party
+        if not anon:
+            return items
+        kept = []
+        for it in items:
+            if it[key] == seat:
+                kept.append(it)
+            elif it["target"] == seat:
+                kept.append({**it, key: "someone"})
+        return kept
+
     out: List[RoundPublic] = []
     for rec in game.history:
         out.append(
@@ -176,11 +188,11 @@ def _public_history(game: Game, seat: str) -> List[RoundPublic]:
                 messages=[MessageView(seat=m.seat, text=m.text) for m in rec.messages],
                 contributions=view(rec.contributions),
                 total_contributed=sum(rec.contributions.values()),
-                exited=list(rec.exited),
+                exited=[s for s in rec.exited if not anon or s == seat],
                 share=rec.share,
                 pot=rec.pot,
                 balances_after_distribution=view(rec.balances_after_distribution),
-                rewards=[
+                rewards=mine([
                     {
                         "giver": r.giver,
                         "target": r.target,
@@ -189,8 +201,8 @@ def _public_history(game: Game, seat: str) -> List[RoundPublic]:
                     }
                     for r in rec.rewards
                     if r.target is not None and r.spend > 0
-                ],
-                punishments=[
+                ], "giver"),
+                punishments=mine([
                     {
                         "punisher": p.punisher,
                         "target": p.target,
@@ -199,7 +211,7 @@ def _public_history(game: Game, seat: str) -> List[RoundPublic]:
                     }
                     for p in rec.punishments
                     if p.target is not None and p.spend > 0
-                ],
+                ], "punisher"),
                 balances_after_punishment=view(rec.balances_after_punishment),
             )
         )
@@ -227,14 +239,18 @@ def _make_obs(
         seat_labels=list(game.seats),
         round=game.round,
         phase=phase,
-        balances=dict(game.balances),
+        balances=dict(game.balances) if cfg.balances_visible else {seat: game.balances[seat]},
         own_balance=game.balances[seat],
         history=_public_history(game, seat),
         messages_this_round=list(messages_this_round),
         this_round_contributions=this_round_contributions,
         this_round_share=this_round_share,
         this_round_total=total,
-        this_round_exited=list(game._rec.exited) if game._rec is not None else [],
+        this_round_exited=[
+            s
+            for s in (game._rec.exited if game._rec is not None else [])
+            if cfg.contributions_visible != "anonymous" or s == seat
+        ],
         horizon_text=builder.horizon_text(
             cfg, cfg.announce_final_round_rules, is_final
         ),
@@ -583,6 +599,8 @@ def count_calls(run: RunConfig, games: Optional[int] = None) -> Dict[str, int]:
     if cfg.punishment_enabled:
         phases += 1
     base = n_games * rounds * cfg.n_players * phases
+    if cfg.punishment_enabled and not cfg.punishment_in_final_round:
+        base -= n_games * cfg.n_players if cfg.horizon.mode == "fixed" else 0
     probe = n_games * rounds * cfg.n_players if cfg.intent_probe else 0
     return {
         "games": n_games,
@@ -592,5 +610,6 @@ def count_calls(run: RunConfig, games: Optional[int] = None) -> Dict[str, int]:
         "action_calls": base,
         "intent_probe_calls": probe,
         "total_calls": base + probe,
-        "note": "upper bound; geometric horizon uses max_rounds; excludes retries",
+        "note": "upper bound; geometric horizon uses max_rounds; exiting seats skip "
+        "reward/punish calls, so real counts are lower with exit; excludes retries",
     }

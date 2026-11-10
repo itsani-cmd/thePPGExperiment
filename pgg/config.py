@@ -62,6 +62,7 @@ class GameConfig(BaseModel):
     punish_cap_fraction: float = 0.5
     punish_cap_abs: int = 100
     punishment_in_final_round: bool = True
+    reward_in_final_round: bool = True
     announce_final_round_rules: bool = True
 
     # Reward phase (runs after distribution, before punishment): spend tokens to

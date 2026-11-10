@@ -107,6 +107,9 @@ def main() -> int:
 
     print("\n3. GROUP DYNAMICS (mean over games)")
     dyn = [r["dynamics"] for r in reports if r["dynamics"]]
+    if not dyn:
+        print("  (no completed rounds in the selected games)")
+        return 0
     for key, label in [
         ("cooperation_slope", "cooperation slope (fraction/round)"),
         ("efficiency", "efficiency (0 = nobody gained, 1 = full cooperation)"),

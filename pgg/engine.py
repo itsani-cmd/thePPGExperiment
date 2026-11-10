@@ -333,7 +333,9 @@ class Game:
 
     # ---- rewards -------------------------------------------------------- #
     def reward_active(self) -> bool:
-        return self.cfg.reward_enabled
+        if not self.cfg.reward_enabled:
+            return False
+        return not (self.is_final_round() and not self.cfg.reward_in_final_round)
 
     def submit_reward(
         self,

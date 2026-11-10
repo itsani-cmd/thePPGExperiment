@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from typing import Dict, List, Optional, Protocol, runtime_checkable
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class MessageView(BaseModel):
@@ -66,10 +66,15 @@ class MessageOut(BaseModel):
 
 
 class ContributionOut(BaseModel):
-    contribution: int
+    contribution: int = 0  # ignored (and may be null/omitted) when exit is true
     reason: str = ""
     predicted_others_mean: Optional[float] = None
     exit: bool = False  # sit the round out (only honoured when the exit option is on)
+
+    @field_validator("contribution", mode="before")
+    @classmethod
+    def _null_contribution_is_zero(cls, v):
+        return 0 if v is None else v
 
 
 class RewardOut(BaseModel):

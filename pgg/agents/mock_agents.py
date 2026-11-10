@@ -87,7 +87,8 @@ class TitForTat(_MockBase):
             ]
             if not others and last.total_contributed:
                 # anonymous mode: only the group total is visible
-                n_others = len(obs.seat_labels) - 1
+                # exiters contributed nothing; only our own exit is visible under anonymity
+                n_others = max(1, len(obs.seat_labels) - 1 - len([e for e in last.exited if e != obs.seat]))
                 own = last.contributions.get(obs.seat, 0)
                 others = [(last.total_contributed - own) / n_others]
             mean = sum(others) / len(others) if others else 0

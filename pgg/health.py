@@ -73,7 +73,8 @@ def _fracs(rounds: List[dict], seat: str) -> List[Optional[float]]:
     out = []
     for r in rounds:
         bal = r["balances_before_contribution"].get(seat, 0)
-        out.append(r["contributions"].get(seat, 0) / bal if bal > 0 else None)
+        exited = seat in r.get("exited", [])  # sat out: no contribution decision
+        out.append(r["contributions"].get(seat, 0) / bal if bal > 0 and not exited else None)
     return out
 
 
@@ -91,6 +92,9 @@ def run_health(g: Dict) -> Dict:
         for s in seats:
             decisions[s] += 1
             fb[s] += bool(r["contribution_fallbacks"].get(s))
+        for x in r.get("rewards", []):
+            decisions[x["giver"]] += 1
+            fb[x["giver"]] += bool(x["fallback_used"])
         for p in r["punishments"]:
             decisions[p["punisher"]] += 1
             fb[p["punisher"]] += bool(p["fallback_used"])
@@ -163,7 +167,13 @@ def persona_fidelity(g: Dict) -> Dict[str, Dict]:
             "persona": persona,
             "mean_fraction": _mean(vals),
             "std_fraction": _std(vals),
-            "zero_rate": _mean([float(r["contributions"].get(seat, 0) == 0) for r in rounds]),
+            "zero_rate": _mean(
+                [
+                    float(r["contributions"].get(seat, 0) == 0)
+                    for r in rounds
+                    if seat not in r.get("exited", [])
+                ]
+            ),
             "punish_per_round": acts / len(punish_rounds) if punish_rounds else None,
             "reward_per_round": (
                 sum(
@@ -208,7 +218,7 @@ def group_dynamics(g: Dict, converge_band: float = 0.1) -> Dict:
         fs = [
             r["contributions"].get(s, 0) / r["balances_before_contribution"][s]
             for s in seats
-            if r["balances_before_contribution"].get(s, 0) > 0
+            if r["balances_before_contribution"].get(s, 0) > 0 and s not in r.get("exited", [])
         ]
         mean_frac.append(_mean(fs))
         spread.append(_std(fs))

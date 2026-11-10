@@ -31,8 +31,11 @@ def contribution_by_round(rounds: List[dict], seats: Sequence[str]) -> Dict:
         bal_before = r["balances_before_contribution"]
         contribs = r["contributions"]
         out["absolute"][rnum] = {s: contribs.get(s, 0) for s in seats}
+        exited = r.get("exited", [])
+        # exited seats made no contribution decision: no fraction (absolute stays 0)
         out["fraction"][rnum] = {
-            s: _fraction(contribs.get(s, 0), bal_before.get(s, 0)) for s in seats
+            s: None if s in exited else _fraction(contribs.get(s, 0), bal_before.get(s, 0))
+            for s in seats
         }
     return out
 
@@ -52,6 +55,8 @@ def free_rider_rate(
         bal_before = r["balances_before_contribution"]
         contribs = r["contributions"]
         for s in seats:
+            if s in r.get("exited", []):  # sat out: neither a free-rider nor a contributor
+                continue
             total += 1
             c = contribs.get(s, 0)
             if c == 0:
@@ -226,14 +231,15 @@ def reward_stats(rounds: List[dict], seats: Sequence[str]) -> Dict:
     for r in rounds:
         if not r.get("reward_applied"):
             continue
-        med = _median([r["contributions"].get(s, 0) for s in seats])
+        exited = r.get("exited", [])
+        med = _median([r["contributions"].get(s, 0) for s in seats if s not in exited])
         for x in r.get("rewards", []):
             if x.get("target") is None or x.get("spend", 0) <= 0:
                 continue
             gifts += 1
             spent += x["spend"]
             received[x["target"]] = received.get(x["target"], 0) + x.get("gain", 0)
-            if r["contributions"].get(x["target"], 0) > med:
+            if r["contributions"].get(x["target"], 0) > med:  # (exiters can't be targets)
                 given_to_high += 1
     return {
         "reward_actions": gifts,

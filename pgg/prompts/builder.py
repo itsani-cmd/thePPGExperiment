@@ -35,8 +35,13 @@ def horizon_text(cfg: GameConfig, disclose_final: bool, is_final: bool) -> str:
         )
     if disclose_final and is_final:
         extra = " This is the FINAL round: there are no future rounds"
-        if not cfg.punishment_in_final_round:
-            extra += " and no punishment phase this round."
+        skipped = []
+        if cfg.reward_enabled and not cfg.reward_in_final_round:
+            skipped.append("reward")
+        if cfg.punishment_enabled and not cfg.punishment_in_final_round:
+            skipped.append("punishment")
+        if skipped:
+            extra += f" and no {' or '.join(skipped)} phase this round."
         else:
             extra += "."
         base += extra
@@ -145,7 +150,13 @@ def build_system_prompt(
         if cfg.reward_enabled
         else ""
     )
+    split_text = (
+        f"the players who did not exit (out of {cfg.n_players})"
+        if cfg.exit_enabled
+        else f"all {cfg.n_players} players"
+    )
     sys = tmpl.format(
+        split_text=split_text,
         exit_rule=exit_rule,
         reveal_rule=reveal_rule,
         reward_phase=reward_phase,
@@ -196,7 +207,7 @@ def build_contribute_prompt(obs: Observation, cfg: GameConfig) -> str:
     exit_field = ', "exit": <true to sit this round out instead, else false>' if cfg.exit_enabled else ""
     if cfg.exit_enabled:
         block = (block + "\n\n" if block else "") + (
-            f"You may instead EXIT this round (set exit to true; contribution is then ignored). "
+            f"You may instead EXIT this round (set exit to true and contribution to 0; contribution is then ignored). "
             f"You would keep your {obs.own_balance} tokens and get {cfg.exit_payoff} extra, "
             f"but receive no share and cannot reward or punish."
         )
