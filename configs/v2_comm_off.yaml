@@ -1,6 +1,8 @@
 name: v2_comm_off
 seed: 1234
 games: 20
+# Run the full batch once per model listed (keys under models:).
+sweep_models: [chatgpt, claude]
 personas_file: personas/PERSONAS.md
 
 # Variation 2, communication OFF (no messages).
@@ -14,11 +16,12 @@ game:
   goal_wording: relative
 
 seats:
-  - {persona: null, principal: null, model: model_a}
-  - {persona: null, principal: null, model: model_a}
-  - {persona: null, principal: null, model: model_a}
-  - {persona: null, principal: null, model: model_a}
-  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null}
+  - {persona: null, principal: null}
+  - {persona: null, principal: null}
+  - {persona: null, principal: null}
+  - {persona: null, principal: null}
 
 models:
-  model_a: {model: gpt-4o-mini, temperature: 1.0, max_tokens: 1024, json_mode: true}
+  chatgpt: {model: gpt-6-luna, temperature: 1.0, max_tokens: 1024, json_mode: true}
+  claude: {model: claude-sonnet-5-5, temperature: 1.0, max_tokens: 1024, json_mode: true}

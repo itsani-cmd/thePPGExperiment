@@ -80,7 +80,10 @@ def _verify_models(run, client: LLMClient):
             file=sys.stderr,
         )
         return
-    missing = [m.model for m in run.models.values() if m.model not in served]
+    used = {s.model for s in run.seats if s.model} or set(run.models)
+    if run.sweep_models:
+        used = set(run.sweep_models)
+    missing = [run.models[k].model for k in used if run.models[k].model not in served]
     if missing:
         print(
             "ERROR: configured models not served by the endpoint: "
@@ -118,25 +121,34 @@ def main(argv=None):
         client = LLMClient(timeout_s=args.timeout)
         _verify_models(run, client)
 
-    run_id = args.resume or args.run_id or f"{run.name}_{int(time.time())}"
-    run_dir = os.path.join(args.runs_root, run_id)
+    base_id = args.resume or args.run_id or f"{run.name}_{int(time.time())}"
+    sweep = run.sweep_models or [None]
+    for model_key in sweep:
+        this_run = run.model_copy(deep=True)
+        run_id = base_id
+        if model_key:
+            for seat in this_run.seats:
+                seat.model = model_key
+            run_id = f"{base_id}_{model_key}"
+            print(f"=== model: {model_key} ({this_run.models[model_key].model}) ===")
+        run_dir = os.path.join(args.runs_root, run_id)
 
-    summaries = run_batch(
-        run,
-        run_dir=run_dir,
-        agent_kind=args.agents,
-        games=args.games,
-        client=client,
-        game_workers=args.game_workers,
-        phase_workers=args.phase_workers,
-        resume=bool(args.resume),
-        on_event=_live_printer if args.live else None,
-    )
+        summaries = run_batch(
+            this_run,
+            run_dir=run_dir,
+            agent_kind=args.agents,
+            games=args.games,
+            client=client,
+            game_workers=args.game_workers,
+            phase_workers=args.phase_workers,
+            resume=bool(args.resume),
+            on_event=_live_printer if args.live else None,
+        )
 
-    print(f"Completed {len(summaries)} game(s). Logs in {run_dir}")
-    if summaries:
-        tokens = [s["total_tokens"] for s in summaries]
-        print(f"  total tokens per game: min={min(tokens)} max={max(tokens)}")
+        print(f"Completed {len(summaries)} game(s). Logs in {run_dir}")
+        if summaries:
+            tokens = [s["total_tokens"] for s in summaries]
+            print(f"  total tokens per game: min={min(tokens)} max={max(tokens)}")
     return 0
 
 

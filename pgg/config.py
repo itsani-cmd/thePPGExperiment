@@ -7,6 +7,7 @@ runner layer so the engine stays free of I/O and LLM concerns.
 
 from __future__ import annotations
 
+import warnings
 from typing import Dict, List, Optional
 
 from pydantic import BaseModel, Field, model_validator
@@ -157,9 +158,20 @@ class RunConfig(BaseModel):
     seed: int = 1234
     games: int = 1
     personas_file: str = "personas/PERSONAS.md"
+    # Keys of ``models`` to run the whole batch on, one after another. Each run
+    # puts every seat on that model. Empty means use each seat's own ``model``.
+    sweep_models: List[str] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def _check(self) -> "RunConfig":
+        unknown = [m for m in self.sweep_models if m not in self.models]
+        if unknown:
+            raise ValueError(f"sweep_models not defined under models: {unknown}")
+        if self.sweep_models and any(s.model for s in self.seats):
+            warnings.warn(
+                "sweep_models is set: seat-level 'model' values are ignored",
+                stacklevel=2,
+            )
         if self.seats and len(self.seats) != self.game.n_players:
             raise ValueError(
                 f"number of seats ({len(self.seats)}) must equal "
