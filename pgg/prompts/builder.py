@@ -189,6 +189,7 @@ def build_message_prompt(obs: Observation, cfg: GameConfig) -> str:
         state_block=_state_block(obs, cfg),
         message_phase_block=block,
         max_chars=cfg.message_max_chars,
+        own_balance=obs.own_balance,
     )
 
 
