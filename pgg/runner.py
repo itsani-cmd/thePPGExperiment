@@ -160,7 +160,25 @@ def build_agents(
 # --------------------------------------------------------------------------- #
 # Observation building (from the engine's public state)
 # --------------------------------------------------------------------------- #
-def _public_history(game: Game) -> List[RoundPublic]:
+def _public_history(game: Game, seat: str) -> List[RoundPublic]:
+    """History as ``seat`` may see it; anonymity hides others' gifts and balances."""
+    anon = game.cfg.contributions_visible == "anonymous"
+
+    def view(d: Dict[str, int]) -> Dict[str, int]:
+        return {seat: d[seat]} if anon and seat in d else ({} if anon else dict(d))
+
+    def mine(items, key):
+        # anonymity: keep only actions the viewer gave or received, hiding the other party
+        if not anon:
+            return items
+        kept = []
+        for it in items:
+            if it[key] == seat:
+                kept.append(it)
+            elif it["target"] == seat:
+                kept.append({**it, key: "someone"})
+        return kept
+
     out: List[RoundPublic] = []
     for rec in game.history:
         out.append(
@@ -168,11 +186,23 @@ def _public_history(game: Game) -> List[RoundPublic]:
                 round=rec.round,
                 speaker_order=list(rec.speaker_order),
                 messages=[MessageView(seat=m.seat, text=m.text) for m in rec.messages],
-                contributions=dict(rec.contributions),
+                contributions=view(rec.contributions),
+                total_contributed=sum(rec.contributions.values()),
+                exited=[s for s in rec.exited if not anon or s == seat],
                 share=rec.share,
                 pot=rec.pot,
-                balances_after_distribution=dict(rec.balances_after_distribution),
-                punishments=[
+                balances_after_distribution=view(rec.balances_after_distribution),
+                rewards=mine([
+                    {
+                        "giver": r.giver,
+                        "target": r.target,
+                        "spend": r.spend,
+                        "gain": r.gain,
+                    }
+                    for r in rec.rewards
+                    if r.target is not None and r.spend > 0
+                ], "giver"),
+                punishments=mine([
                     {
                         "punisher": p.punisher,
                         "target": p.target,
@@ -181,8 +211,8 @@ def _public_history(game: Game) -> List[RoundPublic]:
                     }
                     for p in rec.punishments
                     if p.target is not None and p.spend > 0
-                ],
-                balances_after_punishment=dict(rec.balances_after_punishment),
+                ], "punisher"),
+                balances_after_punishment=view(rec.balances_after_punishment),
             )
         )
     return out
@@ -199,17 +229,28 @@ def _make_obs(
 ) -> Observation:
     cfg = game.cfg
     is_final = game.is_final_round()
+    total = None
+    if this_round_contributions is not None:
+        total = sum(this_round_contributions.values())
+        if cfg.contributions_visible == "anonymous":
+            this_round_contributions = {seat: this_round_contributions.get(seat, 0)}
     return Observation(
         seat=seat,
         seat_labels=list(game.seats),
         round=game.round,
         phase=phase,
-        balances=dict(game.balances),
+        balances=dict(game.balances) if cfg.balances_visible else {seat: game.balances[seat]},
         own_balance=game.balances[seat],
-        history=_public_history(game),
+        history=_public_history(game, seat),
         messages_this_round=list(messages_this_round),
         this_round_contributions=this_round_contributions,
         this_round_share=this_round_share,
+        this_round_total=total,
+        this_round_exited=[
+            s
+            for s in (game._rec.exited if game._rec is not None else [])
+            if cfg.contributions_visible != "anonymous" or s == seat
+        ],
         horizon_text=builder.horizon_text(
             cfg, cfg.announce_final_round_rules, is_final
         ),
@@ -350,12 +391,38 @@ def run_game(
         for seat in game.seats:
             out: ContributionOut = contrib_outs[seat]
             fb = getattr(agents[seat], "fallback_last", False)
-            game.submit_contribution(seat, out.contribution, fb)
+            game.submit_contribution(seat, out.contribution, fb, exit=out.exit)
         game.resolve_contributions_and_distribution()
+        this_contrib = dict(rec.contributions)
+        active = game.active_seats()
+
+        # ---- rewards ----------------------------------------------------- #
+        if game.reward_active():
+            obs_map = {
+                s: _make_obs(
+                    game,
+                    s,
+                    "reward",
+                    disclose_final,
+                    spoken,
+                    this_round_contributions=this_contrib,
+                    this_round_share=rec.share,
+                )
+                for s in active
+            }
+            reward_outs = _run_phase_concurrent(
+                active, lambda s: agents[s].reward(obs_map[s]), phase_workers
+            )
+            for seat in active:
+                out = reward_outs[seat]
+                fb = getattr(agents[seat], "fallback_last", False)
+                game.submit_reward(seat, out.target, out.spend, reason=out.reason, fallback_used=fb)
+            game.resolve_rewards()
+        else:
+            game.skip_rewards()
 
         # ---- punishment -------------------------------------------------- #
         if game.punishment_active():
-            this_contrib = dict(rec.contributions)
             obs_map = {
                 s: _make_obs(
                     game,
@@ -366,14 +433,14 @@ def run_game(
                     this_round_contributions=this_contrib,
                     this_round_share=rec.share,
                 )
-                for s in game.seats
+                for s in active
             }
             punish_outs = _run_phase_concurrent(
-                list(game.seats),
+                active,
                 lambda s: agents[s].punish(obs_map[s]),
                 phase_workers,
             )
-            for seat in game.seats:
+            for seat in active:
                 out = punish_outs[seat]
                 fb = getattr(agents[seat], "fallback_last", False)
                 game.submit_punishment(
@@ -425,12 +492,16 @@ def _round_to_dict(rec: RoundRecord) -> Dict[str, object]:
         "balances_before_contribution": rec.balances_before_contribution,
         "contributions": rec.contributions,
         "contribution_fallbacks": rec.contribution_fallbacks,
+        "exited": rec.exited,
         "balances_after_contribution": rec.balances_after_contribution,
         "carry_in": rec.carry_in,
         "pot": rec.pot,
         "share": rec.share,
         "carry_out": rec.carry_out,
         "balances_after_distribution": rec.balances_after_distribution,
+        "reward_applied": rec.reward_applied,
+        "rewards": [dataclasses.asdict(r) for r in rec.rewards],
+        "balances_after_reward": rec.balances_after_reward,
         "punishment_applied": rec.punishment_applied,
         "punishments": [dataclasses.asdict(p) for p in rec.punishments],
         "balances_after_punishment": rec.balances_after_punishment,
@@ -523,9 +594,13 @@ def count_calls(run: RunConfig, games: Optional[int] = None) -> Dict[str, int]:
     phases = 1  # contribute always
     if cfg.messages_enabled:
         phases += 1
+    if cfg.reward_enabled:
+        phases += 1
     if cfg.punishment_enabled:
         phases += 1
     base = n_games * rounds * cfg.n_players * phases
+    if cfg.punishment_enabled and not cfg.punishment_in_final_round:
+        base -= n_games * cfg.n_players if cfg.horizon.mode == "fixed" else 0
     probe = n_games * rounds * cfg.n_players if cfg.intent_probe else 0
     return {
         "games": n_games,
@@ -535,5 +610,6 @@ def count_calls(run: RunConfig, games: Optional[int] = None) -> Dict[str, int]:
         "action_calls": base,
         "intent_probe_calls": probe,
         "total_calls": base + probe,
-        "note": "upper bound; geometric horizon uses max_rounds; excludes retries",
+        "note": "upper bound; geometric horizon uses max_rounds; exiting seats skip "
+        "reward/punish calls, so real counts are lower with exit; excludes retries",
     }

@@ -1,0 +1,25 @@
+name: v5_anonymous
+seed: 1234
+games: 20
+personas_file: personas/PERSONAS.md
+
+# Variation 5, anonymous contributions. Compare with baseline (names shown). Players see only
+# their own gift and the group total; other balances are hidden too.
+game:
+  n_players: 5
+  start_tokens: 20
+  multiplier: 1.6
+  messages_enabled: true
+  horizon: {mode: fixed, rounds: 10}
+  goal_wording: relative
+  punishment_enabled: true
+  contributions_visible: anonymous
+seats:
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+  - {persona: null, principal: null, model: model_a}
+
+models:
+  model_a: {model: gpt-4o-mini, temperature: 1.0, max_tokens: 1024, json_mode: true}

@@ -31,8 +31,11 @@ def contribution_by_round(rounds: List[dict], seats: Sequence[str]) -> Dict:
         bal_before = r["balances_before_contribution"]
         contribs = r["contributions"]
         out["absolute"][rnum] = {s: contribs.get(s, 0) for s in seats}
+        exited = r.get("exited", [])
+        # exited seats made no contribution decision: no fraction (absolute stays 0)
         out["fraction"][rnum] = {
-            s: _fraction(contribs.get(s, 0), bal_before.get(s, 0)) for s in seats
+            s: None if s in exited else _fraction(contribs.get(s, 0), bal_before.get(s, 0))
+            for s in seats
         }
     return out
 
@@ -52,6 +55,8 @@ def free_rider_rate(
         bal_before = r["balances_before_contribution"]
         contribs = r["contributions"]
         for s in seats:
+            if s in r.get("exited", []):  # sat out: neither a free-rider nor a contributor
+                continue
             total += 1
             c = contribs.get(s, 0)
             if c == 0:
@@ -217,6 +222,43 @@ def final_outcomes(rounds: List[dict], seats: Sequence[str]) -> Dict:
     return out
 
 
+def reward_stats(rounds: List[dict], seats: Sequence[str]) -> Dict:
+    """How often and how much players reward, and who receives rewards."""
+    gifts = 0
+    spent = 0
+    received = {s: 0 for s in seats}
+    given_to_high = 0  # rewarding someone who contributed above the round median
+    for r in rounds:
+        if not r.get("reward_applied"):
+            continue
+        exited = r.get("exited", [])
+        med = _median([r["contributions"].get(s, 0) for s in seats if s not in exited])
+        for x in r.get("rewards", []):
+            if x.get("target") is None or x.get("spend", 0) <= 0:
+                continue
+            gifts += 1
+            spent += x["spend"]
+            received[x["target"]] = received.get(x["target"], 0) + x.get("gain", 0)
+            if r["contributions"].get(x["target"], 0) > med:  # (exiters can't be targets)
+                given_to_high += 1
+    return {
+        "reward_actions": gifts,
+        "tokens_spent": spent,
+        "tokens_received": received,
+        "to_high_contributor_rate": given_to_high / gifts if gifts else 0.0,
+    }
+
+
+def exit_stats(rounds: List[dict], seats: Sequence[str]) -> Dict:
+    """Share of rounds each seat sat out, and the overall exit rate."""
+    n = len(rounds)
+    counts = {s: sum(1 for r in rounds if s in r.get("exited", [])) for s in seats}
+    return {
+        "exit_rate_by_seat": {s: counts[s] / n if n else 0.0 for s in seats},
+        "exit_rate": sum(counts.values()) / (n * len(seats)) if n and seats else 0.0,
+    }
+
+
 def game_metrics(cfg: GameConfig, rounds: List[dict], seats: Sequence[str]) -> Dict:
     """Bundle all per-game metrics. Unit of analysis is the game."""
     return {
@@ -227,6 +269,8 @@ def game_metrics(cfg: GameConfig, rounds: List[dict], seats: Sequence[str]) -> D
         "punishment": punishment_stats(rounds, seats),
         "punishment_targets": punishment_targets(rounds, seats),
         "retaliation_rate": retaliation_rate(rounds, seats),
+        "rewards": reward_stats(rounds, seats),
+        "exits": exit_stats(rounds, seats),
         "endgame_drop": endgame_drop(rounds, seats),
         "final_outcomes": final_outcomes(rounds, seats),
     }

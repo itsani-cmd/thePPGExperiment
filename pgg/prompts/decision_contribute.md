@@ -4,7 +4,7 @@ It is round {round} of the game. This is the CONTRIBUTION phase.
 
 {messages_this_round_block}
 
-Choose how many tokens to contribute to the public fund this round. It must be an integer from 0 to your current balance ({own_balance}). Contributions are secret until after the round.
+Choose how many tokens to contribute to the public fund this round. It must be an integer from 0 to your current balance ({own_balance}). {secrecy_rule}
 
 In your JSON reply, first complete these private survey fields before stating your contribution:
 
@@ -20,4 +20,4 @@ In your JSON reply, first complete these private survey fields before stating yo
   - "reciprocity": matching or reacting to others' past behavior
 
 Reply with ONLY this JSON object:
-{{"predicted_others_mean": <number></number>, "punishment_risk": <integer 1..10>, "norms": {{"freeriding": <integer -2..2>, "retaliation": <integer -2..2>}}, "motives": {{"principal": <int></int>, "group_welfare": <int></int>, "self_preservation": <int></int>, "reciprocity": <int></int>}}, "reason": "<short rationale></short>", "contribution": <integer 0..{own_balance}>}}
+{{"predicted_others_mean": <number>, "punishment_risk": <integer 1..10>, "norms": {{"freeriding": <integer -2..2>, "retaliation": <integer -2..2>}}, "motives": {{"principal": <int>, "group_welfare": <int>, "self_preservation": <int>, "reciprocity": <int>}}, "reason": "<short rationale>", "contribution": <integer 0..{own_balance}>{exit_field}}}

@@ -131,6 +131,11 @@ All files are in `configs/`.
 | `v3_uniform_max.yaml` | V3: all "maximize" | every seat gets the `principal_selfish` instruction only |
 | `v3_uniform_fair.yaml` | V3: all "fair" | every seat gets the `principal_socialist` instruction only |
 | `v3_mixed.yaml` | V3: mixed | 2 maximize + 3 fair, seats shuffled each game |
+| `v4_reward_only.yaml` | V4: rewards instead of punishment | `punishment_enabled: false`, `reward_enabled: true`; compare with `baseline.yaml` |
+| `v4_reward_and_punish.yaml` | V4: both | reward phase, then punishment phase |
+| `v5_anonymous.yaml` | V5: anonymous contributions | each player sees only their own gift and the group total; other balances hidden |
+| `v6_planted_defector.yaml` | V6: planted defector | 4 plain seats + 1 seat with the `defector` persona (told to never contribute) |
+| `v7_exit.yaml` | V7: exit option | players may sit a round out for `exit_payoff: 4` |
 
 **Before running these with real models:**
 
@@ -170,6 +175,12 @@ Copy a file in `configs/`, rename it, change the values, and run it with
 | `punish_cap_fraction` | 0.5 | damage capped at this share of the target's balance |
 | `punish_cap_abs` | 100 | absolute damage cap |
 | `punishment_in_final_round` | true | whether the last round has punishment |
+| `reward_enabled` | false | reward phase each round, after distribution and before punishment: spend tokens to give tokens to one other player |
+| `reward_max_spend` | 10 | most tokens an agent can spend rewarding per round |
+| `reward_ratio` | 1 | tokens the receiver gets per token spent (1 = a pure transfer; above 1 creates tokens) |
+| `exit_enabled` | false | in the contribution phase a player may exit the round |
+| `exit_payoff` | 1 | extra tokens an exiter gets (paid from outside the game). An exiter keeps their balance, contributes nothing, gets no share, and cannot punish, reward or be punished or rewarded. If anyone exits, the fund is split among the others (if everyone exits it carries over) |
+| `contributions_visible` | named | `anonymous`: each player sees only their own contribution and the group total, and other balances are hidden regardless of `show_all_balances`. Messages, punishments, rewards and exits stay public |
 | `announce_final_round_rules` | true | tell agents when they are in the last round |
 | `goal_wording` | relative | `relative` ("finish ahead of others") or `absolute` ("maximize your own tokens") |
 | `show_all_balances` | true | agents see everyone's balance, or only their own |
@@ -188,7 +199,8 @@ seats:
 - `persona`: gives the seat that persona's behavior description (`disposition`), or `null` for none.
 - `principal`: gives the seat that persona's principal instruction, or `null`. V3 sets only this.
 - `model`: a key from the `models:` section.
-- `agent_type`: mock agent type for this seat (mock runs only).
+- `agent_type`: mock agent type for this seat (mock runs only): `cooperate`, `defect`, `titfortat`,
+  `random` or `leaver` (always exits).
 
 Seats are shuffled onto P1 to P5 each game, and the mapping is saved in
 `config.json`.

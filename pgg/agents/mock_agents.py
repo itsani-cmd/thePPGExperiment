@@ -16,6 +16,7 @@ from .base import (
     MessageOut,
     Observation,
     PunishOut,
+    RewardOut,
 )
 
 
@@ -35,6 +36,9 @@ class _MockBase:
 
     def punish(self, obs: Observation) -> PunishOut:
         return PunishOut(target=None, spend=0, reason="mock: no punishment")
+
+    def reward(self, obs: Observation) -> RewardOut:
+        return RewardOut(target=None, spend=0, reason="mock: no reward")
 
     def _last_round(self, obs: Observation):
         return obs.history[-1] if obs.history else None
@@ -81,6 +85,12 @@ class TitForTat(_MockBase):
             others = [
                 c for s, c in last.contributions.items() if s != obs.seat
             ]
+            if not others and last.total_contributed:
+                # anonymous mode: only the group total is visible
+                # exiters contributed nothing; only our own exit is visible under anonymity
+                n_others = max(1, len(obs.seat_labels) - 1 - len([e for e in last.exited if e != obs.seat]))
+                own = last.contributions.get(obs.seat, 0)
+                others = [(last.total_contributed - own) / n_others]
             mean = sum(others) / len(others) if others else 0
             amt = int(round(mean))
             amt = max(0, min(amt, obs.own_balance))
@@ -136,12 +146,36 @@ class RandomAgent(_MockBase):
                 )
         return PunishOut(target=None, spend=0, reason="mock: random no-op")
 
+    def reward(self, obs: Observation) -> RewardOut:
+        rng = self._rng(obs)
+        if rng.random() < 0.25:
+            others = [s for s in obs.seat_labels if s != obs.seat]
+            if others:
+                return RewardOut(
+                    target=rng.choice(others),
+                    spend=rng.randint(1, 10),
+                    reason="mock: random reward",
+                )
+        return RewardOut(target=None, spend=0, reason="mock: random no-op")
+
+
+class Leaver(_MockBase):
+    """Always sits the round out when the exit option exists (else contributes 0)."""
+
+    name = "leaver"
+
+    def contribute(self, obs: Observation) -> ContributionOut:
+        return ContributionOut(
+            contribution=0, reason="mock: always exit", predicted_others_mean=None, exit=True
+        )
+
 
 MOCK_AGENTS = {
     "cooperate": AlwaysCooperate,
     "defect": AlwaysDefect,
     "titfortat": TitForTat,
     "random": RandomAgent,
+    "leaver": Leaver,
 }
 
 

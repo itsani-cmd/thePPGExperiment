@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from typing import Dict, List, Optional, Protocol, runtime_checkable
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class MessageView(BaseModel):
@@ -25,9 +25,14 @@ class RoundPublic(BaseModel):
     speaker_order: List[str] = Field(default_factory=list)
     messages: List[MessageView] = Field(default_factory=list)
     contributions: Dict[str, int] = Field(default_factory=dict)
+    # group total; in anonymous mode ``contributions`` holds only the viewer's own entry
+    total_contributed: int = 0
+    exited: List[str] = Field(default_factory=list)
     share: int = 0
     pot: int = 0
     balances_after_distribution: Dict[str, int] = Field(default_factory=dict)
+    # rewards: list of dicts with giver, target, spend, gain
+    rewards: List[Dict[str, object]] = Field(default_factory=list)
     # punishment: list of (punisher, target, spend, actual_damage)
     punishments: List[Dict[str, object]] = Field(default_factory=list)
     balances_after_punishment: Dict[str, int] = Field(default_factory=dict)
@@ -39,7 +44,7 @@ class Observation(BaseModel):
     seat: str
     seat_labels: List[str]
     round: int
-    phase: str  # 'message' | 'contribute' | 'punish' | 'intent_probe'
+    phase: str  # 'message' | 'contribute' | 'reward' | 'punish' | 'intent_probe'
     balances: Dict[str, int]
     own_balance: int
     history: List[RoundPublic] = Field(default_factory=list)
@@ -48,6 +53,8 @@ class Observation(BaseModel):
     # distribution result available in the punish phase
     this_round_contributions: Optional[Dict[str, int]] = None
     this_round_share: Optional[int] = None
+    this_round_total: Optional[int] = None
+    this_round_exited: List[str] = Field(default_factory=list)
     # horizon disclosure (condition-dependent)
     horizon_text: str = ""
     is_final_round: bool = False
@@ -59,9 +66,21 @@ class MessageOut(BaseModel):
 
 
 class ContributionOut(BaseModel):
-    contribution: int
+    contribution: int = 0  # ignored (and may be null/omitted) when exit is true
     reason: str = ""
     predicted_others_mean: Optional[float] = None
+    exit: bool = False  # sit the round out (only honoured when the exit option is on)
+
+    @field_validator("contribution", mode="before")
+    @classmethod
+    def _null_contribution_is_zero(cls, v):
+        return 0 if v is None else v
+
+
+class RewardOut(BaseModel):
+    target: Optional[str] = None
+    spend: int = 0
+    reason: str = ""
 
 
 class PunishOut(BaseModel):
