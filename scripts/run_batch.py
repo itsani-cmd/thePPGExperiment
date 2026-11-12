@@ -25,8 +25,8 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
-import time
 
 # allow running from the repo root without installing
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -63,6 +63,17 @@ def _parse_args(argv=None):
     )
     p.add_argument("--timeout", type=float, default=60.0, help="per-call timeout seconds")
     return p.parse_args(argv)
+
+
+def _next_run_base(name, runs_root):
+    """<name>_run001, <name>_run002, ...: next unused number for this variation."""
+    pat = re.compile(rf"^{re.escape(name)}_run(\d+)(?:_|$)")
+    taken = (
+        [int(m.group(1)) for d in os.listdir(runs_root) if (m := pat.match(d))]
+        if os.path.isdir(runs_root)
+        else []
+    )
+    return f"{name}_run{max(taken, default=0) + 1:03d}"
 
 
 def _apply_mock_type(run, mock_type):
@@ -121,7 +132,7 @@ def main(argv=None):
         client = LLMClient(timeout_s=args.timeout)
         _verify_models(run, client)
 
-    base_id = args.resume or args.run_id or f"{run.name}_{int(time.time())}"
+    base_id = args.resume or args.run_id or _next_run_base(run.name, args.runs_root)
     sweep = run.sweep_models or [None]
     for model_key in sweep:
         this_run = run.model_copy(deep=True)

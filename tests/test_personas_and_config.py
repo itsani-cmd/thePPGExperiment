@@ -33,14 +33,15 @@ def test_load_personas_from_directory():
     # README and multi-block files are handled, comment mentions don't misroute.
     personas = load_personas(os.path.join(ROOT, "personas", "defs"))
     assert sorted(personas.keys()) == [
-        "defector",
         "flaky",
         "follower",
         "good_samaritan",
         "selfish",
         "socialist",
     ]
-    assert personas["selfish"].principal_instruction.startswith("Maximize my own tokens")
+    assert personas["selfish"].principal_instruction.startswith(
+        "Maximize my own tokens"
+    )
     assert personas["good_samaritan"].disposition.startswith("Generous")
 
 
@@ -50,7 +51,9 @@ def test_v3_principal_blocks_in_single_file():
     for pid in ("principal_selfish", "principal_socialist"):
         assert pid in personas, pid
         assert personas[pid].disposition == ""  # principal-only, no disposition
-    assert "Maximize my own tokens" in personas["principal_selfish"].principal_instruction
+    assert (
+        "Maximize my own tokens" in personas["principal_selfish"].principal_instruction
+    )
 
 
 def test_load_all_config_presets():
