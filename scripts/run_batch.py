@@ -158,8 +158,12 @@ def main(argv=None):
 
         print(f"Completed {len(summaries)} game(s). Logs in {run_dir}")
         if summaries:
-            tokens = [s["total_tokens"] for s in summaries]
-            print(f"  total tokens per game: min={min(tokens)} max={max(tokens)}")
+            # older summaries (pre-rename) only have the in-game total under "total_tokens"
+            bal = [s.get("final_balance_total", s.get("total_tokens")) for s in summaries]
+            print(f"  final balance total per game (in-game tokens): min={min(bal)} max={max(bal)}")
+            llm = [s["llm_tokens"] for s in summaries if "llm_tokens" in s]
+            if llm:
+                print(f"  LLM tokens per game: min={min(llm)} max={max(llm)}")
     return 0
 
 

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import concurrent.futures
 import dataclasses
+import json
 import os
 import random
 from typing import Callable, Dict, List, Optional, Sequence, Tuple
@@ -512,6 +513,12 @@ def _build_summary(
     run: RunConfig, game_id: str, game_seed: int, game: Game, logger: GameLogger
 ) -> Dict[str, object]:
     scores = game.scores()
+    llm_tokens = 0
+    if os.path.exists(logger.calls_path):
+        with open(logger.calls_path, "r", encoding="utf-8") as fh:
+            llm_tokens = sum(
+                json.loads(line).get("total_tokens") or 0 for line in fh if line.strip()
+            )
     return {
         "run_name": run.name,
         "game_id": game_id,
@@ -520,7 +527,8 @@ def _build_summary(
         "horizon_played": game.total_rounds,
         "final_balances": {s: game.balances[s] for s in game.seats},
         "scores": scores,
-        "total_tokens": sum(game.balances.values()),
+        "final_balance_total": sum(game.balances.values()),  # in-game currency
+        "llm_tokens": llm_tokens,  # API usage summed over calls.jsonl
     }
 
 

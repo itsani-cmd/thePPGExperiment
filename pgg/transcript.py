@@ -16,7 +16,8 @@ def _label(seat: str, who: Dict[str, str]) -> str:
     return f"{seat} ({persona})" if persona else seat
 
 
-def format_round(r: dict, who: Dict[str, str]) -> str:
+def format_round(r: dict, who: Dict[str, str], reasons: Dict[str, str] | None = None) -> str:
+    """``reasons`` maps seat -> contribution justification (from calls.jsonl), if known."""
     seats = sorted(r["contributions"].keys())
     lines: List[str] = [f"\n=== Round {r['round']} ==="]
 
@@ -35,6 +36,8 @@ def format_round(r: dict, who: Dict[str, str]) -> str:
             lines.append(f"  {_label(s, who):28s} EXITED (kept {before})")
         else:
             lines.append(f"  {_label(s, who):28s} gave {c:>3} of {before}{fb}")
+            if reasons and reasons.get(s):
+                lines.append(f"      why: {reasons[s]}")
     lines.append(
         f"  pot {r['pot']}, each player gets {r['share']}, carry {r['carry_out']}"
     )
@@ -94,15 +97,36 @@ def load_who(game_dir: str) -> Dict[str, str]:
     }
 
 
+def load_contribution_reasons(game_dir: str) -> Dict[int, Dict[str, str]]:
+    """round -> seat -> reason, from the last successful contribute call per seat."""
+    path = os.path.join(game_dir, "calls.jsonl")
+    out: Dict[int, Dict[str, str]] = {}
+    if not os.path.exists(path):
+        return out
+    with open(path, encoding="utf-8") as fh:
+        for line in fh:
+            if not line.strip():
+                continue
+            c = json.loads(line)
+            parsed = c.get("parsed_output")
+            if c.get("phase") != "contribute" or c.get("error") or not parsed:
+                continue
+            if parsed.get("reason"):
+                out.setdefault(c["round"], {})[c["seat"]] = parsed["reason"]
+    return out
+
+
 def format_game(game_dir: str) -> str:
     who = load_who(game_dir)
     with open(os.path.join(game_dir, "config.json"), encoding="utf-8") as fh:
         total = json.load(fh).get("sampled_total_rounds", "?")
     out = [format_header(os.path.basename(game_dir.rstrip("/")), who, total)]
+    reasons = load_contribution_reasons(game_dir)
     with open(os.path.join(game_dir, "rounds.jsonl"), encoding="utf-8") as fh:
         for line in fh:
             if line.strip():
-                out.append(format_round(json.loads(line), who))
+                r = json.loads(line)
+                out.append(format_round(r, who, reasons.get(r["round"])))
     summary_path = os.path.join(game_dir, "summary.json")
     if os.path.exists(summary_path):
         with open(summary_path, encoding="utf-8") as fh:
