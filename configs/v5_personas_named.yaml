@@ -1,0 +1,37 @@
+name: v5_personas_named
+seed: 1234
+games: 10
+# Variation 5 (anonymous contributions), persona design. CONTROL arm: contributions named (everyone sees who gave what).
+# v5_personas_named.yaml and v5_personas_anonymous.yaml must stay identical except
+# for contributions_visible, so any difference comes from anonymity alone.
+# Same seed in both files -> same persona-to-seat shuffle in game k of each arm.
+# Run the whole batch once per model in sweep_models (add "terra" for the GPT run).
+sweep_models: [sonnet]
+personas_file: personas/defs
+
+game:
+  n_players: 5
+  start_tokens: 20
+  multiplier: 1.6
+  messages_enabled: true
+  message_mode: sequential
+  punishment_enabled: true
+  horizon: {mode: fixed, rounds: 10}
+  goal_wording: relative
+  contributions_visible: named
+
+# The five team personas (defector is left out on purpose).
+seats:
+  - {persona: good_samaritan, principal: good_samaritan}
+  - {persona: selfish, principal: selfish}
+  - {persona: flaky, principal: flaky}
+  - {persona: follower, principal: follower}
+  - {persona: socialist, principal: socialist}
+
+# temperature/json_mode match the team's V2/V3 configs. max_tokens is raised to 4096:
+# it is only a ceiling, but at 1024 reasoning used up the budget and replies came back
+# empty (Fable pilot, 2026-11-13). Sonnet 5.5 replaces Fable 5.1, which used a whole
+# Pro daily limit in ~1.3 games. Check model names against the proxy's /v1/models list.
+models:
+  sonnet: {model: claude-sonnet-5-5, temperature: 1.0, max_tokens: 4096, json_mode: true}
+  terra: {model: gpt-5.6-terra, temperature: 1.0, max_tokens: 4096, json_mode: true}

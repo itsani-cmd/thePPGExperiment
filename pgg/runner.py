@@ -353,6 +353,8 @@ def run_game(
                     obs = _make_obs(game, seat, "message", disclose_final, spoken)
                     out = agents[seat].message(obs)
                     fb = getattr(agents[seat], "fallback_last", False)
+                    if out is not None:
+                        rec.message_plans[seat] = out.plan()
                     if out is not None and out.message:
                         action = game.submit_message(
                             seat, out.message, out.norm_stated, fb
@@ -371,6 +373,8 @@ def run_game(
                 for seat in order:
                     out = outs[seat]
                     fb = getattr(agents[seat], "fallback_last", False)
+                    if out is not None:
+                        rec.message_plans[seat] = out.plan()
                     if out is not None and out.message:
                         game.submit_message(seat, out.message, out.norm_stated, fb)
                     elif out is None and fb:
@@ -489,6 +493,7 @@ def _round_to_dict(rec: RoundRecord) -> Dict[str, object]:
         "round": rec.round,
         "speaker_order": rec.speaker_order,
         "messages": [dataclasses.asdict(m) for m in rec.messages],
+        "message_plans": rec.message_plans,
         "balances_before_contribution": rec.balances_before_contribution,
         "contributions": rec.contributions,
         "contribution_fallbacks": rec.contribution_fallbacks,
