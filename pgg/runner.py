@@ -167,15 +167,16 @@ def _public_history(game: Game, seat: str) -> List[RoundPublic]:
     def view(d: Dict[str, int]) -> Dict[str, int]:
         return {seat: d[seat]} if anon and seat in d else ({} if anon else dict(d))
 
-    def mine(items, key):
-        # anonymity: keep only actions the viewer gave or received, hiding the other party
-        if not anon:
+    def mine(items, key, mode="private"):
+        # 'public': everything; 'private': actions the viewer gave or received, the
+        # other party hidden; 'hidden': only actions the viewer gave.
+        if mode == "public":
             return items
         kept = []
         for it in items:
             if it[key] == seat:
                 kept.append(it)
-            elif it["target"] == seat:
+            elif it["target"] == seat and mode == "private":
                 kept.append({**it, key: "someone"})
         return kept
 
@@ -201,7 +202,7 @@ def _public_history(game: Game, seat: str) -> List[RoundPublic]:
                     }
                     for r in rec.rewards
                     if r.target is not None and r.spend > 0
-                ], "giver"),
+                ], "giver", "private" if anon else "public"),
                 punishments=mine([
                     {
                         "punisher": p.punisher,
@@ -211,7 +212,7 @@ def _public_history(game: Game, seat: str) -> List[RoundPublic]:
                     }
                     for p in rec.punishments
                     if p.target is not None and p.spend > 0
-                ], "punisher"),
+                ], "punisher", game.cfg.punishment_visibility),
                 balances_after_punishment=view(rec.balances_after_punishment),
             )
         )

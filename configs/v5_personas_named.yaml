@@ -1,10 +1,11 @@
 name: v5_personas_named
 seed: 1234
 games: 10
-# Variation 5 (anonymous contributions), persona design. CONTROL arm: contributions named (everyone sees who gave what).
-# v5_personas_named.yaml and v5_personas_anonymous.yaml must stay identical except
-# for contributions_visible, so any difference comes from anonymity alone.
-# Same seed in both files -> same persona-to-seat shuffle in game k of each arm.
+# Variation 5 (anonymous contributions), persona design. CONTROL arm: contributions named (everyone sees who gave what); punishments public.
+# The four V5 arms (named, anonymous, anonymous_public, anonymous_hidden) must stay
+# identical except for contributions_visible and punishments_visible.
+# Same seed in all files -> same persona-to-seat shuffle in game k of each arm.
+# punishments_visible is set explicitly in every arm so each prompt states its rule.
 # Run the whole batch once per model in sweep_models (add "terra" for the GPT run).
 sweep_models: [sonnet]
 personas_file: personas/defs
@@ -19,6 +20,7 @@ game:
   horizon: {mode: fixed, rounds: 10}
   goal_wording: relative
   contributions_visible: named
+  punishments_visible: public
 
 # The five team personas (defector is left out on purpose).
 seats:

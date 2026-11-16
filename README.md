@@ -134,6 +134,7 @@ All files are in `configs/`.
 | `v4_reward_only.yaml` | V4: rewards instead of punishment | `punishment_enabled: false`, `reward_enabled: true`; compare with `baseline.yaml` |
 | `v4_reward_and_punish.yaml` | V4: both | reward phase, then punishment phase |
 | `v5_anonymous.yaml` | V5: anonymous contributions | each player sees only their own gift and the group total; other balances hidden |
+| `v5_personas_named.yaml`, `v5_personas_anonymous.yaml`, `v5_personas_anonymous_public.yaml`, `v5_personas_anonymous_hidden.yaml` | V5 persona arms | named control, then anonymous with punishments private (A), public (B) or hidden (C); identical otherwise, same seed |
 | `v6_planted_defector.yaml` | V6: planted defector | 4 plain seats + 1 seat with the `defector` persona (told to never contribute) |
 | `v7_exit.yaml` | V7: exit option | players may sit a round out for `exit_payoff: 4` |
 
@@ -180,7 +181,8 @@ Copy a file in `configs/`, rename it, change the values, and run it with
 | `reward_ratio` | 1 | tokens the receiver gets per token spent (1 = a pure transfer; above 1 creates tokens) |
 | `exit_enabled` | false | in the contribution phase a player may exit the round |
 | `exit_payoff` | 1 | extra tokens an exiter gets (paid from outside the game). An exiter keeps their balance, contributes nothing, gets no share, and cannot punish, reward or be punished or rewarded. If anyone exits, the fund is split among the others (if everyone exits it carries over) |
-| `contributions_visible` | named | `anonymous`: each player sees only their own contribution and the group total, and other balances are hidden regardless of `show_all_balances`. Messages, punishments, rewards and exits stay public |
+| `contributions_visible` | named | `anonymous`: each player sees only their own contribution and the group total, and other balances are hidden regardless of `show_all_balances`. Messages stay public; rewards and exits are shown only to the players involved (the giver of a reward is shown to the receiver as "someone"). Punishments follow `punishments_visible` |
+| `punishments_visible` | (unset) | `public`: everyone sees who punished whom, the spend and the damage. `private`: each player sees only punishments they gave or received, with the other party shown as "someone". `hidden`: each player sees only the punishments they gave; targets are not told (their own balance still shows the loss). Unset keeps the old behaviour (named → public, anonymous → private) and adds no rule sentence to the prompt; when set, the system prompt also states the rule. Logs and metrics always keep the full record |
 | `announce_final_round_rules` | true | tell agents when they are in the last round |
 | `goal_wording` | relative | `relative` ("finish ahead of others") or `absolute` ("maximize your own tokens") |
 | `show_all_balances` | true | agents see everyone's balance, or only their own |

@@ -114,6 +114,16 @@ def _state_block(obs: Observation, cfg: GameConfig) -> str:
     )
 
 
+PUNISHMENT_VISIBILITY_RULES = {
+    "public": "Punishments are public: after the round everyone sees who punished whom, "
+    "how much they spent, and the damage.",
+    "private": "Punishments are private: you see only the punishments you gave or received, "
+    "and you are not told who punished you.",
+    "hidden": "Punishments are hidden: no one is told that they were punished or by whom; "
+    "you see only the punishments you gave yourself (your own balance still shows any loss).",
+}
+
+
 def build_system_prompt(
     cfg: GameConfig,
     seat: str,
@@ -128,6 +138,7 @@ def build_system_prompt(
     )
     punishment_rule = (
         ": each player may spend tokens to reduce one other player's balance."
+        + (" " + PUNISHMENT_VISIBILITY_RULES[cfg.punishments_visible] if cfg.punishments_visible else "")
         if cfg.punishment_enabled
         else ": DISABLED this game (no punishment)."
     )
