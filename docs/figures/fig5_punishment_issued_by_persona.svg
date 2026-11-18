@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" width="760" height="420" role="img" aria-label="Punishment actions issued by persona, messages on vs off, for each model"><rect width="760" height="420" fill="#fcfcfb"/>
+<text x="24" y="28" font-size="16" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">The follower punishes more when messages are off</text>
+<text x="24" y="48" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Number of punishment actions each persona took over 10 rounds. One game per bar.</text>
+<rect x="24" y="61" width="12" height="12" rx="2" fill="#2a78d6"/><text x="42" y="72" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Messages on</text><rect x="144" y="61" width="12" height="12" rx="2" fill="#eb6834"/><text x="162" y="72" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Messages off</text>
+<text x="170" y="96" font-size="13" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">chatgpt</text>
+<line x1="170.0" x2="170.0" y1="104" y2="376" stroke="#e4e3df"/><text x="170.0" y="392" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0</text>
+<line x1="246.7" x2="246.7" y1="104" y2="376" stroke="#e4e3df"/><text x="246.7" y="392" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">4</text>
+<line x1="323.3" x2="323.3" y1="104" y2="376" stroke="#e4e3df"/><text x="323.3" y="392" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">8</text>
+<line x1="400.0" x2="400.0" y1="104" y2="376" stroke="#e4e3df"/><text x="400.0" y="392" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">12</text>
+<text x="158" y="131" font-size="12" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">good_samaritan</text>
+<text x="176.0" y="116" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0</text>
+<rect x="170" y="124" width="38.3" height="16" rx="3" fill="#eb6834"><title>good_samaritan, chatgpt, messages off: 2</title></rect>
+<text x="214.3" y="136" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">2</text>
+<text x="158" y="187" font-size="12" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">socialist</text>
+<rect x="170" y="160" width="191.7" height="16" rx="3" fill="#2a78d6"><title>socialist, chatgpt, messages on: 10</title></rect>
+<text x="367.7" y="172" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">10</text>
+<rect x="170" y="180" width="172.5" height="16" rx="3" fill="#eb6834"><title>socialist, chatgpt, messages off: 9</title></rect>
+<text x="348.5" y="192" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">9</text>
+<text x="158" y="243" font-size="12" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">follower</text>
+<rect x="170" y="216" width="19.2" height="16" rx="3" fill="#2a78d6"><title>follower, chatgpt, messages on: 1</title></rect>
+<text x="195.2" y="228" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">1</text>
+<rect x="170" y="236" width="38.3" height="16" rx="3" fill="#eb6834"><title>follower, chatgpt, messages off: 2</title></rect>
+<text x="214.3" y="248" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">2</text>
+<text x="158" y="299" font-size="12" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">flaky</text>
+<rect x="170" y="272" width="153.3" height="16" rx="3" fill="#2a78d6"><title>flaky, chatgpt, messages on: 8</title></rect>
+<text x="329.3" y="284" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">8</text>
+<rect x="170" y="292" width="172.5" height="16" rx="3" fill="#eb6834"><title>flaky, chatgpt, messages off: 9</title></rect>
+<text x="348.5" y="304" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">9</text>
+<text x="158" y="355" font-size="12" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">selfish</text>
+<rect x="170" y="328" width="191.7" height="16" rx="3" fill="#2a78d6"><title>selfish, chatgpt, messages on: 10</title></rect>
+<text x="367.7" y="340" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">10</text>
+<rect x="170" y="348" width="153.3" height="16" rx="3" fill="#eb6834"><title>selfish, chatgpt, messages off: 8</title></rect>
+<text x="329.3" y="360" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">8</text>
+<text x="500" y="96" font-size="13" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">claude</text>
+<line x1="500.0" x2="500.0" y1="104" y2="376" stroke="#e4e3df"/><text x="500.0" y="392" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0</text>
+<line x1="576.7" x2="576.7" y1="104" y2="376" stroke="#e4e3df"/><text x="576.7" y="392" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">4</text>
+<line x1="653.3" x2="653.3" y1="104" y2="376" stroke="#e4e3df"/><text x="653.3" y="392" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">8</text>
+<line x1="730.0" x2="730.0" y1="104" y2="376" stroke="#e4e3df"/><text x="730.0" y="392" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">12</text>
+<text x="506.0" y="116" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0</text>
+<text x="506.0" y="136" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0</text>
+<rect x="500" y="160" width="191.7" height="16" rx="3" fill="#2a78d6"><title>socialist, claude, messages on: 10</title></rect>
+<text x="697.7" y="172" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">10</text>
+<rect x="500" y="180" width="172.5" height="16" rx="3" fill="#eb6834"><title>socialist, claude, messages off: 9</title></rect>
+<text x="678.5" y="192" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">9</text>
+<text x="506.0" y="228" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0</text>
+<rect x="500" y="236" width="115.0" height="16" rx="3" fill="#eb6834"><title>follower, claude, messages off: 6</title></rect>
+<text x="621.0" y="248" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">6</text>
+<rect x="500" y="272" width="191.7" height="16" rx="3" fill="#2a78d6"><title>flaky, claude, messages on: 10</title></rect>
+<text x="697.7" y="284" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">10</text>
+<rect x="500" y="292" width="191.7" height="16" rx="3" fill="#eb6834"><title>flaky, claude, messages off: 10</title></rect>
+<text x="697.7" y="304" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">10</text>
+<rect x="500" y="328" width="38.3" height="16" rx="3" fill="#2a78d6"><title>selfish, claude, messages on: 2</title></rect>
+<text x="544.3" y="340" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">2</text>
+<rect x="500" y="348" width="57.5" height="16" rx="3" fill="#eb6834"><title>selfish, claude, messages off: 3</title></rect>
+<text x="563.5" y="360" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">3</text>
+</svg>

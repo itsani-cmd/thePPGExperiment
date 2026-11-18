@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" width="760" height="330" role="img" aria-label="Selfish persona tokens from start to round 10, messages on vs off, for each model"><rect width="760" height="330" fill="#fcfcfb"/>
+<text x="24" y="28" font-size="16" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">The selfish seat ends at the top with messages on and last with messages off</text>
+<text x="24" y="48" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Every player starts with 20 tokens. Labels give the selfish seat's final place out of 5 and tokens. One game per line.</text>
+<rect x="24" y="61" width="12" height="12" rx="2" fill="#2a78d6"/><text x="42" y="72" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Messages on</text><rect x="144" y="61" width="12" height="12" rx="2" fill="#eb6834"/><text x="162" y="72" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Messages off</text>
+<text x="40" y="100" font-size="13" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">chatgpt</text>
+<line x1="70" x2="370" y1="292.0" y2="292.0" stroke="#e4e3df"/><text x="64" y="296.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0</text>
+<line x1="70" x2="370" y1="247.0" y2="247.0" stroke="#e4e3df"/><text x="64" y="251.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">5</text>
+<line x1="70" x2="370" y1="202.0" y2="202.0" stroke="#e4e3df"/><text x="64" y="206.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">10</text>
+<line x1="70" x2="370" y1="157.0" y2="157.0" stroke="#e4e3df"/><text x="64" y="161.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">15</text>
+<line x1="70" x2="370" y1="112.0" y2="112.0" stroke="#e4e3df"/><text x="64" y="116.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">20</text>
+<text x="110" y="312" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Start</text>
+<text x="250" y="312" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">After round 10</text>
+<line x1="110" y1="112.0" x2="250" y2="247.0" stroke="#2a78d6" stroke-width="2"/>
+<circle cx="250" cy="247.0" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages on: selfish ends 1st · 5 tokens</title></circle>
+<text x="262" y="251.0" font-size="12" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">1st · 5 tokens</text>
+<line x1="110" y1="112.0" x2="250" y2="265.0" stroke="#eb6834" stroke-width="2"/>
+<circle cx="250" cy="265.0" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages off: selfish ends 5th · 3 tokens</title></circle>
+<text x="262" y="269.0" font-size="12" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">5th · 3 tokens</text>
+<circle cx="110" cy="112.0" r="6" fill="#52514e" stroke="#fcfcfb" stroke-width="2"><title>chatgpt: every player starts with 20 tokens</title></circle>
+<text x="120" y="104.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">20 tokens</text>
+<text x="410" y="100" font-size="13" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">claude</text>
+<line x1="440" x2="740" y1="292.0" y2="292.0" stroke="#e4e3df"/><text x="434" y="296.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0</text>
+<line x1="440" x2="740" y1="247.0" y2="247.0" stroke="#e4e3df"/><text x="434" y="251.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">5</text>
+<line x1="440" x2="740" y1="202.0" y2="202.0" stroke="#e4e3df"/><text x="434" y="206.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">10</text>
+<line x1="440" x2="740" y1="157.0" y2="157.0" stroke="#e4e3df"/><text x="434" y="161.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">15</text>
+<line x1="440" x2="740" y1="112.0" y2="112.0" stroke="#e4e3df"/><text x="434" y="116.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">20</text>
+<text x="480" y="312" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Start</text>
+<text x="620" y="312" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">After round 10</text>
+<line x1="480" y1="112.0" x2="620" y2="229.0" stroke="#2a78d6" stroke-width="2"/>
+<circle cx="620" cy="229.0" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>claude, messages on: selfish ends tied 1st · 7 tokens</title></circle>
+<text x="632" y="233.0" font-size="12" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">tied 1st · 7 tokens</text>
+<line x1="480" y1="112.0" x2="620" y2="292.0" stroke="#eb6834" stroke-width="2"/>
+<circle cx="620" cy="292.0" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>claude, messages off: selfish ends 5th · 0 tokens</title></circle>
+<text x="632" y="296.0" font-size="12" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">5th · 0 tokens</text>
+<circle cx="480" cy="112.0" r="6" fill="#52514e" stroke="#fcfcfb" stroke-width="2"><title>claude: every player starts with 20 tokens</title></circle>
+<text x="490" y="104.0" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">20 tokens</text>
+</svg>

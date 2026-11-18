@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 380" width="760" height="380" role="img" aria-label="Tokens destroyed by punishment in each round, messages on vs off, for each model"><rect width="760" height="380" fill="#fcfcfb"/>
+<text x="24" y="28" font-size="16" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">Punishment damage drops off late in three games but not in claude with messages off</text>
+<text x="24" y="48" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Tokens taken from punished players in each round. One game per line.</text>
+<rect x="24" y="61" width="12" height="12" rx="2" fill="#2a78d6"/><text x="42" y="72" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Messages on</text><rect x="144" y="61" width="12" height="12" rx="2" fill="#eb6834"/><text x="162" y="72" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Messages off</text>
+<text x="60" y="106" font-size="13" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">chatgpt</text>
+<line x1="60" x2="360" y1="316.0" y2="316.0" stroke="#e4e3df"/><text x="54" y="320.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0</text>
+<line x1="60" x2="360" y1="276.0" y2="276.0" stroke="#e4e3df"/><text x="54" y="280.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">10</text>
+<line x1="60" x2="360" y1="236.0" y2="236.0" stroke="#e4e3df"/><text x="54" y="240.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">20</text>
+<line x1="60" x2="360" y1="196.0" y2="196.0" stroke="#e4e3df"/><text x="54" y="200.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">30</text>
+<line x1="60" x2="360" y1="156.0" y2="156.0" stroke="#e4e3df"/><text x="54" y="160.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">40</text>
+<line x1="60" x2="360" y1="116.0" y2="116.0" stroke="#e4e3df"/><text x="54" y="120.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">50</text>
+<text x="60.0" y="334" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">R1</text>
+<text x="193.3" y="334" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">R5</text>
+<text x="360.0" y="334" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">R10</text>
+<polyline points="60.0,232.0 93.3,220.0 126.7,220.0 160.0,180.0 193.3,204.0 226.7,216.0 260.0,240.0 293.3,268.0 326.7,280.0 360.0,264.0" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="60.0" cy="232.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages on: 21</title></circle>
+<circle cx="93.3" cy="220.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages on: 24</title></circle>
+<circle cx="126.7" cy="220.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages on: 24</title></circle>
+<circle cx="160.0" cy="180.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages on: 34</title></circle>
+<circle cx="193.3" cy="204.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages on: 28</title></circle>
+<circle cx="226.7" cy="216.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages on: 25</title></circle>
+<circle cx="260.0" cy="240.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages on: 19</title></circle>
+<circle cx="293.3" cy="268.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages on: 12</title></circle>
+<circle cx="326.7" cy="280.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages on: 9</title></circle>
+<circle cx="360.0" cy="264.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages on: 13</title></circle>
+<text x="368.0" y="268.0" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">13</text>
+<polyline points="60.0,220.0 93.3,152.0 126.7,176.0 160.0,196.0 193.3,280.0 226.7,220.0 260.0,260.0 293.3,280.0 326.7,288.0 360.0,284.0" fill="none" stroke="#eb6834" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="60.0" cy="220.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages off: 24</title></circle>
+<circle cx="93.3" cy="152.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages off: 41</title></circle>
+<circle cx="126.7" cy="176.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages off: 35</title></circle>
+<circle cx="160.0" cy="196.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages off: 30</title></circle>
+<circle cx="193.3" cy="280.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages off: 9</title></circle>
+<circle cx="226.7" cy="220.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages off: 24</title></circle>
+<circle cx="260.0" cy="260.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages off: 14</title></circle>
+<circle cx="293.3" cy="280.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages off: 9</title></circle>
+<circle cx="326.7" cy="288.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages off: 7</title></circle>
+<circle cx="360.0" cy="284.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages off: 8</title></circle>
+<text x="368.0" y="288.0" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">8</text>
+<text x="210.0" y="352" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Round</text>
+<text x="440" y="106" font-size="13" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">claude</text>
+<line x1="440" x2="740" y1="316.0" y2="316.0" stroke="#e4e3df"/><text x="434" y="320.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0</text>
+<line x1="440" x2="740" y1="276.0" y2="276.0" stroke="#e4e3df"/><text x="434" y="280.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">10</text>
+<line x1="440" x2="740" y1="236.0" y2="236.0" stroke="#e4e3df"/><text x="434" y="240.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">20</text>
+<line x1="440" x2="740" y1="196.0" y2="196.0" stroke="#e4e3df"/><text x="434" y="200.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">30</text>
+<line x1="440" x2="740" y1="156.0" y2="156.0" stroke="#e4e3df"/><text x="434" y="160.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">40</text>
+<line x1="440" x2="740" y1="116.0" y2="116.0" stroke="#e4e3df"/><text x="434" y="120.0" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">50</text>
+<text x="440.0" y="334" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">R1</text>
+<text x="573.3" y="334" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">R5</text>
+<text x="740.0" y="334" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">R10</text>
+<polyline points="440.0,208.0 473.3,220.0 506.7,208.0 540.0,232.0 573.3,244.0 606.7,248.0 640.0,220.0 673.3,196.0 706.7,224.0 740.0,272.0" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="440.0" cy="208.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>claude, messages on: 27</title></circle>
+<circle cx="473.3" cy="220.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>claude, messages on: 24</title></circle>
+<circle cx="506.7" cy="208.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>claude, messages on: 27</title></circle>
+<circle cx="540.0" cy="232.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>claude, messages on: 21</title></circle>
+<circle cx="573.3" cy="244.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>claude, messages on: 18</title></circle>
+<circle cx="606.7" cy="248.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>claude, messages on: 17</title></circle>
+<circle cx="640.0" cy="220.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>claude, messages on: 24</title></circle>
+<circle cx="673.3" cy="196.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>claude, messages on: 30</title></circle>
+<circle cx="706.7" cy="224.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>claude, messages on: 23</title></circle>
+<circle cx="740.0" cy="272.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>claude, messages on: 11</title></circle>
+<text x="748.0" y="276.0" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">11</text>
+<polyline points="440.0,208.0 473.3,172.0 506.7,192.0 540.0,236.0 573.3,188.0 606.7,220.0 640.0,196.0 673.3,208.0 706.7,252.0 740.0,200.0" fill="none" stroke="#eb6834" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="440.0" cy="208.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>claude, messages off: 27</title></circle>
+<circle cx="473.3" cy="172.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>claude, messages off: 36</title></circle>
+<circle cx="506.7" cy="192.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>claude, messages off: 31</title></circle>
+<circle cx="540.0" cy="236.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>claude, messages off: 20</title></circle>
+<circle cx="573.3" cy="188.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>claude, messages off: 32</title></circle>
+<circle cx="606.7" cy="220.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>claude, messages off: 24</title></circle>
+<circle cx="640.0" cy="196.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>claude, messages off: 30</title></circle>
+<circle cx="673.3" cy="208.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>claude, messages off: 27</title></circle>
+<circle cx="706.7" cy="252.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>claude, messages off: 16</title></circle>
+<circle cx="740.0" cy="200.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>claude, messages off: 29</title></circle>
+<text x="748.0" y="204.0" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">29</text>
+<text x="590.0" y="352" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Round</text>
+<text x="24" y="368" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Totals over 10 rounds: chatgpt on 209, chatgpt off 201, claude on 222, claude off 272.</text>
+</svg>

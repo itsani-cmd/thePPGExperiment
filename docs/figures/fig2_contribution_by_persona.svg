@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" width="760" height="420" role="img" aria-label="Mean contribution as a fraction of balance by persona, messages on vs off, for each model"><rect width="760" height="420" fill="#fcfcfb"/>
+<text x="24" y="28" font-size="16" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">Contributions are lower with messages on in 9 of 10 persona-model pairs</text>
+<text x="24" y="48" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Mean contribution as a fraction of current balance, by persona. One game per bar.</text>
+<rect x="24" y="61" width="12" height="12" rx="2" fill="#2a78d6"/><text x="42" y="72" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Messages on</text><rect x="144" y="61" width="12" height="12" rx="2" fill="#eb6834"/><text x="162" y="72" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Messages off</text>
+<text x="170" y="96" font-size="13" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">chatgpt</text>
+<line x1="170" x2="170" y1="104" y2="376" stroke="#e4e3df"/><text x="170" y="392" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0</text>
+<line x1="285.0" x2="285.0" y1="104" y2="376" stroke="#e4e3df"/><text x="285.0" y="392" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.5</text>
+<line x1="400" x2="400" y1="104" y2="376" stroke="#e4e3df"/><text x="400" y="392" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">1</text>
+<text x="158" y="131" font-size="12" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">good_samaritan</text>
+<rect x="170" y="104" width="214.5" height="16" rx="3" fill="#2a78d6"/>
+<text x="390.52727272727276" y="116" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.93</text>
+<rect x="170" y="124" width="227.7" height="16" rx="3" fill="#eb6834"/>
+<text x="403.7" y="136" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.99</text>
+<text x="158" y="187" font-size="12" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">socialist</text>
+<rect x="170" y="160" width="125.9" height="16" rx="3" fill="#2a78d6"/>
+<text x="301.9138808559861" y="172" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.55</text>
+<rect x="170" y="180" width="156.1" height="16" rx="3" fill="#eb6834"/>
+<text x="332.0689393939394" y="192" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.68</text>
+<text x="158" y="243" font-size="12" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">follower</text>
+<rect x="170" y="216" width="106.5" height="16" rx="3" fill="#2a78d6"/>
+<text x="282.5245421245421" y="228" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.46</text>
+<rect x="170" y="236" width="153.2" height="16" rx="3" fill="#eb6834"/>
+<text x="329.20979637646303" y="248" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.67</text>
+<text x="158" y="299" font-size="12" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">flaky</text>
+<rect x="170" y="272" width="92.8" height="16" rx="3" fill="#2a78d6"/>
+<text x="268.8319597069597" y="284" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.40</text>
+<rect x="170" y="292" width="155.4" height="16" rx="3" fill="#eb6834"/>
+<text x="331.4203703703704" y="304" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.68</text>
+<text x="158" y="355" font-size="12" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">selfish</text>
+<rect x="170" y="328" width="43.6" height="16" rx="3" fill="#2a78d6"/>
+<text x="219.58573717948718" y="340" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.19</text>
+<rect x="170" y="348" width="57.4" height="16" rx="3" fill="#eb6834"/>
+<text x="233.37713675213675" y="360" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.25</text>
+<text x="500" y="96" font-size="13" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">claude</text>
+<line x1="500" x2="500" y1="104" y2="376" stroke="#e4e3df"/><text x="500" y="392" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0</text>
+<line x1="615.0" x2="615.0" y1="104" y2="376" stroke="#e4e3df"/><text x="615.0" y="392" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.5</text>
+<line x1="730" x2="730" y1="104" y2="376" stroke="#e4e3df"/><text x="730" y="392" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">1</text>
+<rect x="500" y="104" width="181.7" height="16" rx="3" fill="#2a78d6"/>
+<text x="687.7" y="116" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.79</text>
+<rect x="500" y="124" width="217.7" height="16" rx="3" fill="#eb6834"/>
+<text x="723.6545530492899" y="136" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.95</text>
+<rect x="500" y="160" width="139.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="644.9894480519481" y="172" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.60</text>
+<rect x="500" y="180" width="178.7" height="16" rx="3" fill="#eb6834"/>
+<text x="684.6635964912281" y="192" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.78</text>
+<rect x="500" y="216" width="117.1" height="16" rx="3" fill="#2a78d6"/>
+<text x="623.1195501816192" y="228" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.51</text>
+<rect x="500" y="236" width="158.1" height="16" rx="3" fill="#eb6834"/>
+<text x="664.1457759510338" y="248" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.69</text>
+<rect x="500" y="272" width="89.3" height="16" rx="3" fill="#2a78d6"/>
+<text x="595.2568625818626" y="284" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.39</text>
+<rect x="500" y="292" width="143.2" height="16" rx="3" fill="#eb6834"/>
+<text x="649.2450283462667" y="304" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.62</text>
+<rect x="500" y="328" width="65.2" height="16" rx="3" fill="#2a78d6"/>
+<text x="571.2286404303948" y="340" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.28</text>
+<rect x="500" y="348" width="50.2" height="16" rx="3" fill="#eb6834"/>
+<text x="556.239898989899" y="360" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0.22</text>
+</svg>

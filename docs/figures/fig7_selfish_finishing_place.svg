@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" width="760" height="330" role="img" aria-label="Selfish persona finishing place, messages on vs off, for each model"><rect width="760" height="330" fill="#fcfcfb"/>
+<text x="24" y="28" font-size="16" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">The selfish seat drops from the top to last place when messages are off</text>
+<text x="24" y="48" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Finishing place out of 5 players after round 10, by tokens held. One game per model.</text>
+
+<text x="40" y="84" font-size="13" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">chatgpt</text>
+<line x1="40" x2="370" y1="116" y2="116" stroke="#e4e3df"/>
+<line x1="40" x2="370" y1="154" y2="154" stroke="#e4e3df"/>
+<line x1="40" x2="370" y1="192" y2="192" stroke="#e4e3df"/>
+<line x1="40" x2="370" y1="230" y2="230" stroke="#e4e3df"/>
+<line x1="40" x2="370" y1="268" y2="268" stroke="#e4e3df"/>
+<text x="180" y="298" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Messages on</text>
+<text x="300" y="298" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Messages off</text>
+<line x1="180" y1="116" x2="300" y2="268" stroke="#52514e" stroke-width="2"/>
+<circle cx="180" cy="116" r="7" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages on: selfish finishes 1st with 5 tokens</title></circle>
+<text x="166" y="114" font-size="13" fill="#0b0b0b" text-anchor="end" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">1st</text>
+<text x="166" y="129" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">5 tokens</text>
+<circle cx="300" cy="268" r="7" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>chatgpt, messages off: selfish finishes 5th with 3 tokens</title></circle>
+<text x="314" y="266" font-size="13" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">5th</text>
+<text x="314" y="281" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">3 tokens</text>
+<text x="400" y="84" font-size="13" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">claude</text>
+<line x1="400" x2="730" y1="116" y2="116" stroke="#e4e3df"/>
+<line x1="400" x2="730" y1="154" y2="154" stroke="#e4e3df"/>
+<line x1="400" x2="730" y1="192" y2="192" stroke="#e4e3df"/>
+<line x1="400" x2="730" y1="230" y2="230" stroke="#e4e3df"/>
+<line x1="400" x2="730" y1="268" y2="268" stroke="#e4e3df"/>
+<text x="540" y="298" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Messages on</text>
+<text x="660" y="298" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Messages off</text>
+<line x1="540" y1="116" x2="660" y2="268" stroke="#52514e" stroke-width="2"/>
+<circle cx="540" cy="116" r="7" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"><title>claude, messages on: selfish finishes tied 1st with 7 tokens</title></circle>
+<text x="526" y="114" font-size="13" fill="#0b0b0b" text-anchor="end" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">tied 1st</text>
+<text x="526" y="129" font-size="11" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">7 tokens</text>
+<circle cx="660" cy="268" r="7" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"><title>claude, messages off: selfish finishes 5th with 0 tokens</title></circle>
+<text x="674" y="266" font-size="13" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">5th</text>
+<text x="674" y="281" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0 tokens</text>
+</svg>

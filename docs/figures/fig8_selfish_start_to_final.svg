@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" role="img" aria-label="Selfish persona final tokens vs the other players' average, messages on vs off, for each model"><rect width="760" height="400" fill="#fcfcfb"/>
+<text x="24" y="28" font-size="16" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">The selfish seat ends above the others with messages on and far below them with messages off</text>
+<text x="24" y="48" font-size="12" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Tokens held after round 10. Everyone starts with 20 (dashed line). One game per pair of bars.</text>
+
+<line x1="170.0" x2="170.0" y1="86" y2="354" stroke="#e4e3df"/><text x="170.0" y="370" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">0</text>
+<line x1="300.0" x2="300.0" y1="86" y2="354" stroke="#e4e3df"/><text x="300.0" y="370" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">5</text>
+<line x1="430.0" x2="430.0" y1="86" y2="354" stroke="#e4e3df"/><text x="430.0" y="370" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">10</text>
+<line x1="560.0" x2="560.0" y1="86" y2="354" stroke="#e4e3df"/><text x="560.0" y="370" font-size="11" fill="#52514e" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">15</text>
+<line x1="690.0" x2="690.0" y1="86" y2="354" stroke="#52514e" stroke-width="1.5" stroke-dasharray="4 4"/><text x="690.0" y="370" font-size="11" fill="#0b0b0b" text-anchor="middle" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">20 (start)</text>
+<text x="24" y="104" font-size="13" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">chatgpt</text>
+<text x="154" y="139" font-size="12" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Messages on</text>
+<rect x="170" y="116" width="130.0" height="16" rx="3" fill="#2a78d6"><title>chatgpt, messages on: Selfish: 5 · 1st</title></rect>
+<text x="306.0" y="128" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">Selfish: 5 · 1st</text>
+<rect x="170" y="136" width="65.0" height="16" rx="3" fill="#b9b8b3"><title>chatgpt, messages on: Others' average: 2.5</title></rect>
+<text x="241.0" y="148" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Others' average: 2.5</text>
+<text x="154" y="195" font-size="12" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Messages off</text>
+<rect x="170" y="172" width="78.0" height="16" rx="3" fill="#eb6834"><title>chatgpt, messages off: Selfish: 3 · 5th</title></rect>
+<text x="254.0" y="184" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">Selfish: 3 · 5th</text>
+<rect x="170" y="192" width="162.5" height="16" rx="3" fill="#b9b8b3"><title>chatgpt, messages off: Others' average: 6.25</title></rect>
+<text x="338.5" y="204" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Others' average: 6.25</text>
+<text x="24" y="238" font-size="13" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">claude</text>
+<text x="154" y="273" font-size="12" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Messages on</text>
+<rect x="170" y="250" width="182.0" height="16" rx="3" fill="#2a78d6"><title>claude, messages on: Selfish: 7 · tied 1st</title></rect>
+<text x="358.0" y="262" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">Selfish: 7 · tied 1st</text>
+<rect x="170" y="270" width="162.5" height="16" rx="3" fill="#b9b8b3"><title>claude, messages on: Others' average: 6.25</title></rect>
+<text x="338.5" y="282" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Others' average: 6.25</text>
+<text x="154" y="329" font-size="12" fill="#52514e" text-anchor="end" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Messages off</text>
+<text x="176.0" y="318" font-size="11" fill="#0b0b0b" text-anchor="start" font-weight="600" font-family="-apple-system,Helvetica,Arial,sans-serif">Selfish: 0 · 5th</text>
+<rect x="170" y="326" width="273.0" height="16" rx="3" fill="#b9b8b3"><title>claude, messages off: Others' average: 10.5</title></rect>
+<text x="449.0" y="338" font-size="11" fill="#52514e" text-anchor="start" font-weight="normal" font-family="-apple-system,Helvetica,Arial,sans-serif">Others' average: 10.5</text>
+</svg>
