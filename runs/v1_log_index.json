@@ -1,0 +1,107 @@
+{
+  "scope": "Variation 1 historical experiment logs; no reports or presentation files.",
+  "completed_valid_main_games": 3,
+  "canonical_valid_run": "v1_20261113_retry01",
+  "original_attempt": "v1_20261113",
+  "warning": "The retry directory copies three clean games from the original attempt. Do not count those games twice. No retry batch ran. Smoke runs are connection tests, not main results. Retain incomplete/fallback-contaminated games for audit only.",
+  "runs": [
+    {
+      "path": "v1_20261113/known_gpt-5.6-sol/game_0000",
+      "smoke": false,
+      "finished": true,
+      "rounds_logged": 10,
+      "fallback_actions": 15
+    },
+    {
+      "path": "v1_20261113/known_gpt-5.6-sol/game_0001",
+      "smoke": false,
+      "finished": false,
+      "rounds_logged": 4,
+      "fallback_actions": 10
+    },
+    {
+      "path": "v1_20261113/known_gpt-6-luna/game_0000",
+      "smoke": false,
+      "finished": true,
+      "rounds_logged": 10,
+      "fallback_actions": 0
+    },
+    {
+      "path": "v1_20261113/known_gpt-6-luna/game_0001",
+      "smoke": false,
+      "finished": false,
+      "rounds_logged": 1,
+      "fallback_actions": 14
+    },
+    {
+      "path": "v1_20261113/unknown_gpt-5.6-sol/game_0000",
+      "smoke": false,
+      "finished": true,
+      "rounds_logged": 6,
+      "fallback_actions": 0
+    },
+    {
+      "path": "v1_20261113/unknown_gpt-5.6-sol/game_0001",
+      "smoke": false,
+      "finished": false,
+      "rounds_logged": 3,
+      "fallback_actions": 14
+    },
+    {
+      "path": "v1_20261113/unknown_gpt-6-luna/game_0000",
+      "smoke": false,
+      "finished": true,
+      "rounds_logged": 6,
+      "fallback_actions": 0
+    },
+    {
+      "path": "v1_20261113_retry01/known_gpt-6-luna/game_0000",
+      "smoke": false,
+      "finished": true,
+      "rounds_logged": 10,
+      "fallback_actions": 0
+    },
+    {
+      "path": "v1_20261113_retry01/unknown_gpt-5.6-sol/game_0000",
+      "smoke": false,
+      "finished": true,
+      "rounds_logged": 6,
+      "fallback_actions": 0
+    },
+    {
+      "path": "v1_20261113_retry01/unknown_gpt-6-luna/game_0000",
+      "smoke": false,
+      "finished": true,
+      "rounds_logged": 6,
+      "fallback_actions": 0
+    },
+    {
+      "path": "v1_smoke_gpt-5.6-sol_20261113/game_0000",
+      "smoke": true,
+      "finished": true,
+      "rounds_logged": 2,
+      "fallback_actions": 0
+    },
+    {
+      "path": "v1_smoke_gpt-5.6-sol_20261113_4096/game_0000",
+      "smoke": true,
+      "finished": true,
+      "rounds_logged": 2,
+      "fallback_actions": 0
+    },
+    {
+      "path": "v1_smoke_gpt-6-luna_20261113/game_0000",
+      "smoke": true,
+      "finished": true,
+      "rounds_logged": 2,
+      "fallback_actions": 0
+    },
+    {
+      "path": "v1_smoke_gpt-6-luna_20261113_4096/game_0000",
+      "smoke": true,
+      "finished": true,
+      "rounds_logged": 2,
+      "fallback_actions": 0
+    }
+  ]
+}

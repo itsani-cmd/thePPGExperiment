@@ -1,0 +1,13 @@
+{
+  "python": "3.9.6 (default, Aug  8 2025, 19:06:38) \n[Clang 17.0.0 (clang-1700.3.19.1)]",
+  "platform": "macOS-15.6-arm64-arm-64bit",
+  "proxy_version": "8.0.69",
+  "packages": {
+    "pydantic": "2.12.5",
+    "PyYAML": "6.0.3",
+    "openai": "2.48.0",
+    "httpx": "0.28.1",
+    "pytest": "8.4.2",
+    "matplotlib": "3.9.4"
+  }
+}

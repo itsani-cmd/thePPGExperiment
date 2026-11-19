@@ -4,7 +4,7 @@ games: 20
 personas_file: personas/PERSONAS.md
 
 # Variation 1, known-end arm: fixed 10-round horizon, agents told the length.
-# Reviewer arm: punishment OFF in the final round, and that rule announced.
+# Keep punishment available in every round, matching the unknown-end arm.
 game:
   n_players: 5
   rounds: 10
@@ -13,7 +13,7 @@ game:
   messages_enabled: true
   message_mode: sequential
   punishment_enabled: true
-  punishment_in_final_round: false
+  punishment_in_final_round: true
   announce_final_round_rules: true
   horizon: {mode: fixed, rounds: 10}
   goal_wording: relative

@@ -31,7 +31,8 @@ def horizon_text(cfg: GameConfig, disclose_final: bool, is_final: bool) -> str:
     else:
         base = (
             "The game may end after any round; its exact length is not disclosed. "
-            "After each round there is a chance the game continues."
+            f"After each round there is a {cfg.horizon.p_continue:.0%} chance "
+            "the game continues."
         )
     if disclose_final and is_final:
         extra = " This is the FINAL round: there are no future rounds"

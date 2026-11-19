@@ -1,0 +1,15 @@
+{
+  "source": "/Users/joyceye/Documents/CMU/thePPGExperiment/runs/v1_20261113",
+  "retained": [
+    "known_gpt-6-luna/game_0000",
+    "unknown_gpt-5.6-sol/game_0000",
+    "unknown_gpt-6-luna/game_0000"
+  ],
+  "omitted": [
+    "known_gpt-5.6-sol/game_0000",
+    "known_gpt-5.6-sol/game_0001",
+    "known_gpt-6-luna/game_0001",
+    "unknown_gpt-5.6-sol/game_0001"
+  ],
+  "reason": "Retain only completed games with real API calls and zero fallback actions; restart interrupted games from round 1 with their original seed."
+}
