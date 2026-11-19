@@ -1,0 +1,32 @@
+name: exp_rap_personas_gemini_high
+seed: 1234
+games: 1
+personas_file: personas/defs
+
+# Variation 4, rewards AND punishment with 5 distinct personas.
+# Model 1: Gemini High (gemini-3.5-flash-lite)
+game:
+  n_players: 5
+  start_tokens: 20
+  multiplier: 1.6
+  messages_enabled: true
+  horizon: {mode: fixed, rounds: 5}
+  goal_wording: relative
+  punishment_enabled: true
+  reward_enabled: true
+  reward_max_spend: 10
+  reward_ratio: 1
+
+seats:
+  - {persona: good_samaritan, principal: good_samaritan, model: model_a}
+  - {persona: selfish, principal: selfish, model: model_a}
+  - {persona: flaky, principal: flaky, model: model_a}
+  - {persona: follower, principal: follower, model: model_a}
+  - {persona: socialist, principal: socialist, model: model_a}
+
+models:
+  model_a:
+    model: gemini-3.5-flash-lite
+    temperature: 1.0
+    max_tokens: 400
+    json_mode: true
