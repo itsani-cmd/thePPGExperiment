@@ -1,6 +1,10 @@
 # V5: Anonymous Contributions — Results
 
-Owner: Seojin Hong · Branch: `v5-anonymous-contributions` · Last updated: 2026-11-17
+Owner: Seojin Hong · Branch: `v5-anonymous-contributions` · Last updated: 2026-11-18
+
+**Per-game data (80 games, one row per game):** [`V5_per_game_stats.csv`](V5_per_game_stats.csv),
+made with `python scripts/v5_per_game_csv.py docs/V5_per_game_stats.csv` (needs the raw
+`runs/` logs, which are gitignored).
 
 Configs (four arms, same seed, identical except the two visibility settings):
 
