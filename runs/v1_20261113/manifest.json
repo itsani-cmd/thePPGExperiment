@@ -1,0 +1,372 @@
+{
+  "models": [
+    "gpt-5.6-sol",
+    "gpt-6-luna"
+  ],
+  "games_per_condition": 10,
+  "action_calls_before_retries": 6300,
+  "source_sha256": {
+    "pgg/logging_.py": "11354e838ba292b28763242d421361cc1e9ad053feb5d51fdc709da41b57f6a4",
+    "pgg/metrics.py": "ecc8dd35e2748ebf3d89a9896e5994354671d04e1c4628365352b0200e47375f",
+    "pgg/runner.py": "c88beaf40d4be938ecefd9497a07ef2123ba8ef53e9ed15166393088278b7701",
+    "pgg/config.py": "954994acefe1a6aaae7a18abb594e2bd355c06d96e9b98bda242849b76b37505",
+    "pgg/transcript.py": "67ef037e34deef7fd8a85fdcd6709699f841ed2492f4ebee99561923a3f22448",
+    "pgg/health.py": "4e7b462e82c00066f5a028f5a97f5408c0c8ca47002b423ebdbac001c0a2f76e",
+    "pgg/__init__.py": "91fe6a22b38c772025a32c7d079e942c336f872397571e29e6a6a3cf1d58d2de",
+    "pgg/engine.py": "d7c943b581c84ca98fede20e226f5775022fbb162710ed1b51bb556b680759e8",
+    "pgg/llm/client.py": "e912853cd24d718d10bc97302ff4ea91e755494cb5b2b4a8048a0abc83a0d930",
+    "pgg/llm/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pgg/agents/mock_agents.py": "94952422bdf9121befd8e741de099396df5ce0c227a95b6d87c203d3143abdb7",
+    "pgg/agents/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pgg/agents/llm_agent.py": "8022b55aa9b2d7709a2eace0de6d4972177ba542f59c68d569d14f970c177add",
+    "pgg/agents/base.py": "4f53dc9ee8d79ba617ae05fd87b69ba4ef779edab47dd4ccaab0af1555f54ac9",
+    "pgg/prompts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pgg/prompts/builder.py": "9850fd2cffe98c275873f43daaf18d6dc8b1e78a2de8229d9428956967062c9f",
+    "pgg/prompts/persona_loader.py": "677042bc07c804ca39ac2d628a0261614eb99d6764123685651a92ec780d2cb3",
+    "pgg/prompts/goal_wording.py": "07e9876a91a115b577bc4e493ee5e3762a040aed8dceb7083733779523c10005",
+    "pgg/prompts/persona_template.md": "4aa783845253f16183ded2119131b5694d78a660caae39a8d5fdcf6684028720",
+    "pgg/prompts/decision_punish.md": "8e48be4a7a18570f4882a725041500127eaa1768c415a5f2fc7ab7168bb15d7b",
+    "pgg/prompts/decision_reward.md": "0c725f2a516113048b64e9f7971dddc6e926f4f75067f0011d3658a32f221f8d",
+    "pgg/prompts/decision_message.md": "606f2bdeb42b63f4207788315f366efc3bc5bccad09fbf754ea847a35052dc39",
+    "pgg/prompts/decision_intent_probe.md": "ddf91a8244e50bcdc925bd93cb8f232125699ff797e83e766c266265b6c9eee9",
+    "pgg/prompts/system_base.md": "c4125af9209543622749dde21cb3d5cb43dc1ef7c1dea607b9da9b9889f57ead",
+    "pgg/prompts/decision_contribute.md": "dabc2bd41c42368ab273724ed4059069c71f9eeea583c144af966957db1c5fe9",
+    "configs/v1_local/known_gpt-6-luna.yaml": "4aeab9f394bc3b58724fdac9265506711e434fd0ce2497bdf5bdb554418194b1",
+    "configs/v1_local/unknown_gpt-5.6-sol.yaml": "4f03bd8a3442270882d1bf0d4e1104b97035620f858b2c41b931d2d06679232d",
+    "configs/v1_local/unknown_gpt-6-luna.yaml": "a38186d8d5c9ac86ceb3273d152ca92680b2a1ed220480d8b15335925e1ca259",
+    "configs/v1_local/smoke_gpt-6-luna.yaml": "68ad75a3c53b73905955b15a0599ecec535fdcb34444c2851422c6f7e13b90fd",
+    "configs/v1_local/known_gpt-5.6-sol.yaml": "a0efd77cfb4fbe53e48c21a61d2106a4f21e114bde75c6eafadf9fe72277bbce",
+    "configs/v1_local/smoke_gpt-5.6-sol.yaml": "461bcc64f328bf2bfd29a68164bdbc6956822f62a108298877635f30361e172d",
+    "scripts/run_variation1.py": "1a87aea737a9ceccff0f6906ee44cfa5dabee0fe099ce42b228e43f6babf656c"
+  },
+  "configs": {
+    "known_gpt-5.6-sol": {
+      "name": "v1_known_gpt-5.6-sol",
+      "game": {
+        "n_players": 5,
+        "rounds": 10,
+        "start_tokens": 20,
+        "multiplier": 1.6,
+        "messages_enabled": true,
+        "message_mode": "sequential",
+        "message_max_chars": 300,
+        "punishment_enabled": true,
+        "punish_max_spend": 10,
+        "punish_ratio": 3,
+        "punish_cap_fraction": 0.5,
+        "punish_cap_abs": 100,
+        "punishment_in_final_round": true,
+        "reward_in_final_round": true,
+        "announce_final_round_rules": true,
+        "reward_enabled": false,
+        "reward_max_spend": 10,
+        "reward_ratio": 1,
+        "exit_enabled": false,
+        "exit_payoff": 1,
+        "contributions_visible": "named",
+        "horizon": {
+          "mode": "fixed",
+          "rounds": 10,
+          "p_continue": 0.9,
+          "max_rounds": 30
+        },
+        "goal_wording": "relative",
+        "show_all_balances": true,
+        "intent_probe": false,
+        "free_rider_fraction_threshold": 0.25
+      },
+      "seats": [
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        },
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        },
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        },
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        },
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        }
+      ],
+      "models": {
+        "model_a": {
+          "model": "gpt-5.6-sol",
+          "base_url": null,
+          "temperature": 1.0,
+          "max_tokens": 4096,
+          "reasoning": null,
+          "json_mode": true
+        }
+      },
+      "seed": 1234,
+      "games": 10,
+      "personas_file": "personas/PERSONAS.md",
+      "sweep_models": []
+    },
+    "unknown_gpt-5.6-sol": {
+      "name": "v1_unknown_gpt-5.6-sol",
+      "game": {
+        "n_players": 5,
+        "rounds": 10,
+        "start_tokens": 20,
+        "multiplier": 1.6,
+        "messages_enabled": true,
+        "message_mode": "sequential",
+        "message_max_chars": 300,
+        "punishment_enabled": true,
+        "punish_max_spend": 10,
+        "punish_ratio": 3,
+        "punish_cap_fraction": 0.5,
+        "punish_cap_abs": 100,
+        "punishment_in_final_round": true,
+        "reward_in_final_round": true,
+        "announce_final_round_rules": false,
+        "reward_enabled": false,
+        "reward_max_spend": 10,
+        "reward_ratio": 1,
+        "exit_enabled": false,
+        "exit_payoff": 1,
+        "contributions_visible": "named",
+        "horizon": {
+          "mode": "geometric",
+          "rounds": 10,
+          "p_continue": 0.9,
+          "max_rounds": 30
+        },
+        "goal_wording": "relative",
+        "show_all_balances": true,
+        "intent_probe": false,
+        "free_rider_fraction_threshold": 0.25
+      },
+      "seats": [
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        },
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        },
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        },
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        },
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        }
+      ],
+      "models": {
+        "model_a": {
+          "model": "gpt-5.6-sol",
+          "base_url": null,
+          "temperature": 1.0,
+          "max_tokens": 4096,
+          "reasoning": null,
+          "json_mode": true
+        }
+      },
+      "seed": 1234,
+      "games": 10,
+      "personas_file": "personas/PERSONAS.md",
+      "sweep_models": []
+    },
+    "known_gpt-6-luna": {
+      "name": "v1_known_gpt-6-luna",
+      "game": {
+        "n_players": 5,
+        "rounds": 10,
+        "start_tokens": 20,
+        "multiplier": 1.6,
+        "messages_enabled": true,
+        "message_mode": "sequential",
+        "message_max_chars": 300,
+        "punishment_enabled": true,
+        "punish_max_spend": 10,
+        "punish_ratio": 3,
+        "punish_cap_fraction": 0.5,
+        "punish_cap_abs": 100,
+        "punishment_in_final_round": true,
+        "reward_in_final_round": true,
+        "announce_final_round_rules": true,
+        "reward_enabled": false,
+        "reward_max_spend": 10,
+        "reward_ratio": 1,
+        "exit_enabled": false,
+        "exit_payoff": 1,
+        "contributions_visible": "named",
+        "horizon": {
+          "mode": "fixed",
+          "rounds": 10,
+          "p_continue": 0.9,
+          "max_rounds": 30
+        },
+        "goal_wording": "relative",
+        "show_all_balances": true,
+        "intent_probe": false,
+        "free_rider_fraction_threshold": 0.25
+      },
+      "seats": [
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        },
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        },
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        },
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        },
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        }
+      ],
+      "models": {
+        "model_a": {
+          "model": "gpt-6-luna",
+          "base_url": null,
+          "temperature": 1.0,
+          "max_tokens": 4096,
+          "reasoning": null,
+          "json_mode": true
+        }
+      },
+      "seed": 1234,
+      "games": 10,
+      "personas_file": "personas/PERSONAS.md",
+      "sweep_models": []
+    },
+    "unknown_gpt-6-luna": {
+      "name": "v1_unknown_gpt-6-luna",
+      "game": {
+        "n_players": 5,
+        "rounds": 10,
+        "start_tokens": 20,
+        "multiplier": 1.6,
+        "messages_enabled": true,
+        "message_mode": "sequential",
+        "message_max_chars": 300,
+        "punishment_enabled": true,
+        "punish_max_spend": 10,
+        "punish_ratio": 3,
+        "punish_cap_fraction": 0.5,
+        "punish_cap_abs": 100,
+        "punishment_in_final_round": true,
+        "reward_in_final_round": true,
+        "announce_final_round_rules": false,
+        "reward_enabled": false,
+        "reward_max_spend": 10,
+        "reward_ratio": 1,
+        "exit_enabled": false,
+        "exit_payoff": 1,
+        "contributions_visible": "named",
+        "horizon": {
+          "mode": "geometric",
+          "rounds": 10,
+          "p_continue": 0.9,
+          "max_rounds": 30
+        },
+        "goal_wording": "relative",
+        "show_all_balances": true,
+        "intent_probe": false,
+        "free_rider_fraction_threshold": 0.25
+      },
+      "seats": [
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        },
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        },
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        },
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        },
+        {
+          "persona": null,
+          "principal": null,
+          "model": "model_a",
+          "agent_type": null
+        }
+      ],
+      "models": {
+        "model_a": {
+          "model": "gpt-6-luna",
+          "base_url": null,
+          "temperature": 1.0,
+          "max_tokens": 4096,
+          "reasoning": null,
+          "json_mode": true
+        }
+      },
+      "seed": 1234,
+      "games": 10,
+      "personas_file": "personas/PERSONAS.md",
+      "sweep_models": []
+    }
+  }
+}
