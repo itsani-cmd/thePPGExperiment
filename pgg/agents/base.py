@@ -8,6 +8,7 @@ log each call — makes resume and audit straightforward.
 
 from __future__ import annotations
 
+import re
 from typing import Dict, List, Optional, Protocol, runtime_checkable
 
 from pydantic import BaseModel, Field, field_validator
@@ -60,9 +61,58 @@ class Observation(BaseModel):
     is_final_round: bool = False
 
 
+def _strip_tags(v: str) -> str:
+    """Drop stray XML-like tags (e.g. a copied ``</intent>``) from a survey answer."""
+    return re.sub(r"</?[A-Za-z_][A-Za-z0-9_ ]*>", "", v).strip()
+
+
+def _lenient_int(v):
+    """Coerce a survey number to int, or None if it can't be read.
+
+    Survey fields are optional extras: a bad value must never fail the whole
+    reply (that would drop the message and trigger a fallback).
+    """
+    if v is None or isinstance(v, bool):
+        return None
+    if isinstance(v, int):
+        return v
+    if isinstance(v, float):
+        return int(v) if v.is_integer() else round(v)
+    if isinstance(v, str):
+        m = re.search(r"-?\d+", _strip_tags(v))
+        return int(m.group()) if m else None
+    return None
+
+
 class MessageOut(BaseModel):
     message: str = ""
     norm_stated: bool = False
+    # Private communication plan (survey). Never shown to other players; logged
+    # per round under ``message_plans`` for the promise-keeping metrics.
+    intent: Optional[str] = None
+    claimed_contribution: Optional[int] = None
+    intended_contribution: Optional[int] = None
+
+    @field_validator("intent", mode="before")
+    @classmethod
+    def _clean_intent(cls, v):
+        if not isinstance(v, str):
+            return None
+        return _strip_tags(v) or None
+
+    @field_validator("claimed_contribution", "intended_contribution", mode="before")
+    @classmethod
+    def _clean_amount(cls, v):
+        return _lenient_int(v)
+
+    def plan(self) -> Dict[str, object]:
+        """The private plan as stored in the round log."""
+        return {
+            "intent": self.intent,
+            "claimed_contribution": self.claimed_contribution,
+            "intended_contribution": self.intended_contribution,
+            "sent_message": bool(self.message),
+        }
 
 
 class ContributionOut(BaseModel):
@@ -88,6 +138,13 @@ class PunishOut(BaseModel):
     spend: int = 0
     reason: str = ""
     expected_effect: str = ""
+
+    @field_validator("reason", "expected_effect", mode="before")
+    @classmethod
+    def _null_text_is_empty(cls, v):
+        # A "do nothing" reply often sends "expected_effect": null; that is a valid
+        # decision, not a schema error worth a retry or a fallback.
+        return "" if v is None else v
 
 
 class IntentProbeEntry(BaseModel):

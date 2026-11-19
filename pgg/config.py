@@ -80,6 +80,15 @@ class GameConfig(BaseModel):
     # 'named': everyone sees who gave what. 'anonymous': each player sees only
     # their own contribution and the group total; other balances are hidden too.
     contributions_visible: str = "named"
+    # Who sees punishments in the history (V5 options):
+    #   'public'  : everyone sees who punished whom, the spend and the damage.
+    #   'private' : each player sees only punishments they gave or received; the
+    #               other party is shown as "someone".
+    #   'hidden'  : each player sees only the punishments they gave; no one is told
+    #               they were punished (their own balance still shows the loss).
+    # None keeps the old behaviour (named -> public, anonymous -> private) and adds
+    # no rule sentence to the prompt; setting it explicitly also states the rule.
+    punishments_visible: Optional[str] = None
 
     horizon: HorizonConfig = Field(default_factory=HorizonConfig)
 
@@ -94,6 +103,13 @@ class GameConfig(BaseModel):
     def balances_visible(self) -> bool:
         """Whether agents see every player's balance (anonymity hides them)."""
         return self.show_all_balances and self.contributions_visible == "named"
+
+    @property
+    def punishment_visibility(self) -> str:
+        """Resolved punishment visibility: 'public' | 'private' | 'hidden'."""
+        if self.punishments_visible is not None:
+            return self.punishments_visible
+        return "private" if self.contributions_visible == "anonymous" else "public"
 
     @model_validator(mode="after")
     def _check(self) -> "GameConfig":
@@ -117,6 +133,8 @@ class GameConfig(BaseModel):
             raise ValueError("exit_payoff must be >= 0")
         if self.contributions_visible not in ("named", "anonymous"):
             raise ValueError("contributions_visible must be 'named' or 'anonymous'")
+        if self.punishments_visible not in (None, "public", "private", "hidden"):
+            raise ValueError("punishments_visible must be 'public', 'private' or 'hidden'")
         # keep the convenience mirror in sync with a fixed horizon
         if self.horizon.mode == "fixed":
             self.rounds = self.horizon.rounds

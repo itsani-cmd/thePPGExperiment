@@ -81,6 +81,9 @@ class RoundRecord:
     round: int
     speaker_order: List[str] = field(default_factory=list)
     messages: List[MessageAction] = field(default_factory=list)
+    # Private message-phase survey per seat (intent, claimed/intended contribution).
+    # Logged only; never part of any agent's observation.
+    message_plans: Dict[str, Dict[str, object]] = field(default_factory=dict)
 
     balances_before_contribution: Dict[str, int] = field(default_factory=dict)
     contributions: Dict[str, int] = field(default_factory=dict)

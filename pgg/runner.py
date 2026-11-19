@@ -167,15 +167,16 @@ def _public_history(game: Game, seat: str) -> List[RoundPublic]:
     def view(d: Dict[str, int]) -> Dict[str, int]:
         return {seat: d[seat]} if anon and seat in d else ({} if anon else dict(d))
 
-    def mine(items, key):
-        # anonymity: keep only actions the viewer gave or received, hiding the other party
-        if not anon:
+    def mine(items, key, mode="private"):
+        # 'public': everything; 'private': actions the viewer gave or received, the
+        # other party hidden; 'hidden': only actions the viewer gave.
+        if mode == "public":
             return items
         kept = []
         for it in items:
             if it[key] == seat:
                 kept.append(it)
-            elif it["target"] == seat:
+            elif it["target"] == seat and mode == "private":
                 kept.append({**it, key: "someone"})
         return kept
 
@@ -201,7 +202,7 @@ def _public_history(game: Game, seat: str) -> List[RoundPublic]:
                     }
                     for r in rec.rewards
                     if r.target is not None and r.spend > 0
-                ], "giver"),
+                ], "giver", "private" if anon else "public"),
                 punishments=mine([
                     {
                         "punisher": p.punisher,
@@ -211,7 +212,7 @@ def _public_history(game: Game, seat: str) -> List[RoundPublic]:
                     }
                     for p in rec.punishments
                     if p.target is not None and p.spend > 0
-                ], "punisher"),
+                ], "punisher", game.cfg.punishment_visibility),
                 balances_after_punishment=view(rec.balances_after_punishment),
             )
         )
@@ -353,6 +354,8 @@ def run_game(
                     obs = _make_obs(game, seat, "message", disclose_final, spoken)
                     out = agents[seat].message(obs)
                     fb = getattr(agents[seat], "fallback_last", False)
+                    if out is not None:
+                        rec.message_plans[seat] = out.plan()
                     if out is not None and out.message:
                         action = game.submit_message(
                             seat, out.message, out.norm_stated, fb
@@ -371,6 +374,8 @@ def run_game(
                 for seat in order:
                     out = outs[seat]
                     fb = getattr(agents[seat], "fallback_last", False)
+                    if out is not None:
+                        rec.message_plans[seat] = out.plan()
                     if out is not None and out.message:
                         game.submit_message(seat, out.message, out.norm_stated, fb)
                     elif out is None and fb:
@@ -489,6 +494,7 @@ def _round_to_dict(rec: RoundRecord) -> Dict[str, object]:
         "round": rec.round,
         "speaker_order": rec.speaker_order,
         "messages": [dataclasses.asdict(m) for m in rec.messages],
+        "message_plans": rec.message_plans,
         "balances_before_contribution": rec.balances_before_contribution,
         "contributions": rec.contributions,
         "contribution_fallbacks": rec.contribution_fallbacks,
